@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/IkeChat/IkeChat.iml" filepath="$PROJECT_DIR$/IkeChat/IkeChat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IkeChatClient/IkeChatClient.iml" filepath="$PROJECT_DIR$/IkeChatClient/IkeChatClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IkeChatServ/IkeChatServ.iml" filepath="$PROJECT_DIR$/IkeChatServ/IkeChatServ.iml" />
+    </modules>
+  </component>
+</project>
