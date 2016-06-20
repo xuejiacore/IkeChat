@@ -9,8 +9,11 @@ package org.ike.wechat.core;
 
 import org.ike.wechat.exception.InvalidateParametersException;
 import org.ike.wechat.exception.UnverifiedParameterException;
+import org.ike.wechat.network.NetworkKit;
 import org.ike.wechat.parser.IParameterKey;
 import org.ike.wechat.parser.Parameters;
+
+import java.io.IOException;
 
 /**
  * Class Name: AbstractApi
@@ -71,7 +74,12 @@ public abstract class AbstractApi implements IAPI {
      * @return 返回请求响应
      */
     protected String httpsPostReq(String url, Parameters parameters) {
-        return request(url, parameters, SSH_POST);
+        try {
+            return request(url, parameters, SSH_POST);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -82,7 +90,12 @@ public abstract class AbstractApi implements IAPI {
      * @return 返回请求响应
      */
     protected String httpsGetReq(String url, Parameters parameters) {
-        return request(url, parameters, SSH_GET);
+        try {
+            return request(url, parameters, SSH_GET);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -93,7 +106,12 @@ public abstract class AbstractApi implements IAPI {
      * @return 返回请求响应
      */
     protected String postReq(String url, Parameters parameters) {
-        return request(url, parameters, POST);
+        try {
+            return request(url, parameters, POST);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -104,7 +122,12 @@ public abstract class AbstractApi implements IAPI {
      * @return 返回请求的响应
      */
     protected String getReq(String url, Parameters parameters) {
-        return request(url, parameters, GET);
+        try {
+            return request(url, parameters, GET);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -114,7 +137,18 @@ public abstract class AbstractApi implements IAPI {
      * @param parameters 请求的参数
      * @return 返回请求的响应内容
      */
-    protected String request(String url, Parameters parameters, int method) {
+    protected String request(String url, Parameters parameters, int method) throws IOException {
+        switch (method) {
+            case SSH_POST:
+                return NetworkKit.sshPost(url, parameters);
+            case GET:
+            case SSH_GET:
+                return NetworkKit.get(url, parameters);
+            case POST:
+                return NetworkKit.post(url, parameters);
+        }
+        // 在任何一次请求完成后，都需要将API的调用锁锁上，防止恶意调用
+        IkeChat.lock();
         return "{\"access_token\":\"asdasd\"}";
     }
 }

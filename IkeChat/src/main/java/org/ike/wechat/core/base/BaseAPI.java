@@ -15,6 +15,8 @@ import org.ike.wechat.parser.IParameterKey;
 import org.ike.wechat.parser.Parameters;
 import org.ike.wechat.parser.Response;
 
+import java.util.Map;
+
 /**
  * Class Name: BaseAPI
  * Create Date: 2016/6/18 22:24
@@ -60,9 +62,13 @@ public class BaseAPI extends AbstractApi {
                 } else {
                     throw new DeniedOperationException("拒绝不安全的操作操作!");
                 }
-                return new Response(httpsGetReq(String.format(CGI_REFRESH_TOKEN,
+                Response response = new Response(httpsPostReq(String.format(CGI_REFRESH_TOKEN,
                         IkeChat.getConfig().getAppid(),
-                        IkeChat.getConfig().getSecretKey()), null));
+                        IkeChat.getConfig().getSecretKey()), parameters));
+                Map resultMap = response.toMap();
+                IkeChat.getConfig().setAccessToken((String) resultMap.get("access_token"));
+                IkeChat.getConfig().setAccessTokenExpireIn((Integer) resultMap.get("expires_in"));
+                return response;
             } else if (apiIs(IkeChat.API_LIST_SERVER_IPS)) {
                 return new Response(httpsGetReq(String.format(CGI_SERVER_IPS, IkeChat.getConfig().getAccessToken()), null));
             }

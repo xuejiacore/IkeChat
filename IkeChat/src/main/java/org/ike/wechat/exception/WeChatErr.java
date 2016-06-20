@@ -70,6 +70,7 @@ public class WeChatErr {
         ERRORS.put(40119, "button类型错误");
         ERRORS.put(40120, "button类型错误");
         ERRORS.put(40121, "不合法的media_id类型");
+        ERRORS.put(40125, "不合法的app secret");
         ERRORS.put(40132, "微信号不合法");
         ERRORS.put(40137, "不支持的图片格式");
         ERRORS.put(41001, "缺少access_token参数");

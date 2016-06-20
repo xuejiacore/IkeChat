@@ -17,10 +17,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.ike.wechat.parser.Parameters;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,11 +55,12 @@ public class NetworkKit {
     /**
      * Https的Post方式实现
      *
-     * @param url    请求的URL
-     * @param params 请求的参数
+     * @param url        请求的URL
+     * @param parameters 请求的参数
      * @return 返回请求响应
      */
-    public static String sshPost(String url, List<NameValuePair> params) {
+    public static String sshPost(String url, Parameters parameters) {
+        List<NameValuePair> params = paramsTrans(parameters);
         requestLog(url, params);
         String result = null;
         try {
@@ -84,6 +88,17 @@ public class NetworkKit {
             }
         }
         return result;
+    }
+
+    private static List<NameValuePair> paramsTrans(Parameters parameters) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair nameValuePair;
+
+        for (Object key : parameters.keySet()) {
+            nameValuePair = new BasicNameValuePair(key.toString(), parameters.get(key).getValue().toString());
+            params.add(nameValuePair);
+        }
+        return params;
     }
 
     /**
@@ -142,11 +157,12 @@ public class NetworkKit {
     /**
      * 使用POST方法请求
      *
-     * @param url    请求的URL
-     * @param params 请求的参数
+     * @param url        请求的URL
+     * @param parameters 请求的参数
      * @return 返回请求响应
      */
-    public static String post(String url, List<NameValuePair> params) throws IOException {
+    public static String post(String url, Parameters parameters) throws IOException {
+        List<NameValuePair> params = paramsTrans(parameters);
         requestLog(url, params);
 
         httpClient = HttpClients.createDefault();
@@ -244,11 +260,12 @@ public class NetworkKit {
     /**
      * 使用GET方法请求
      *
-     * @param url    请求的URL
-     * @param params 请求的参数
+     * @param url        请求的URL
+     * @param parameters 请求的参数
      * @return 返回请求响应
      */
-    public static String get(String url, List<NameValuePair> params) {
+    public static String get(String url, Parameters parameters) {
+        List<NameValuePair> params = paramsTrans(parameters);
         requestLog(url, params);
         httpClient = HttpClients.createDefault();
         String result = null;

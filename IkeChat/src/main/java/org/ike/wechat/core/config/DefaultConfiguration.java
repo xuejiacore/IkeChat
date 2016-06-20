@@ -21,7 +21,7 @@ import org.ike.wechat.utils.PropertiesUtil;
  */
 public class DefaultConfiguration extends AbstractConfiguration {
     public DefaultConfiguration() {
-        setAppid(PropertiesUtil.getValue(IkeChat.P_APPID));
+        setAppid(PropertiesUtil.getValue(IkeChat.P_APP_ID));
         setSecretKey(PropertiesUtil.getValue(IkeChat.P_SECRET));
     }
 }

@@ -60,8 +60,10 @@ public class IkeChat {
     public static final int API_BASE = 0X8000000;                       // 基础接口
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static final String P_APPID = "appID";                       // AppId
+    public static final String P_APP_ID = "appID";                       // AppId
     public static final String P_SECRET = "appsecret";                  // AppSecret
+    public static final String P_SECRET_KEY_PATH = "secretPath";         // SecretKey Path
+    public static final String P_DISK_ENCRYPT = "diskEncrypt";          // diskEncrypt
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     static Logger logger = Logger.getLogger(IkeChat.LOGGER_NAME);
@@ -133,6 +135,10 @@ public class IkeChat {
     public static synchronized void releaseLocker() {
         locked = false;
         logger.warn("警告：解锁紧缺资源!");
+    }
+
+    public static synchronized void lock() {
+        locked = true;
     }
 
     /**

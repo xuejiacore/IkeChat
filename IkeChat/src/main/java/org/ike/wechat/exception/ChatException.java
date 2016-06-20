@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
+import org.ike.wechat.core.config.AbstractConfiguration;
 
 import java.io.IOException;
 
@@ -46,7 +47,7 @@ public class ChatException extends Throwable {
     @Override
     public synchronized Throwable fillInStackTrace() {
         // 对所有发生的api异常，将做一次授权信息的保存
-        AuthorInfo.saveToken2Disk();
+        AbstractConfiguration.saveToken2Disk();
         return super.fillInStackTrace();
     }
 
