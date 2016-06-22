@@ -5,9 +5,10 @@
  * Date Time: 2016/6/18 22:06
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.config;
+package org.ike.wechat.config;
 
 import org.apache.log4j.Logger;
+import org.ike.wechat.cache.IStorage;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.exception.InvalidateAPIException;

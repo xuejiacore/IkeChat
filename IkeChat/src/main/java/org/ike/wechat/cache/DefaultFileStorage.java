@@ -5,10 +5,9 @@
  * Date Time: 2016/6/22 0:27
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.config;
+package org.ike.wechat.cache;
 
 import com.google.gson.Gson;
-import jdk.nashorn.internal.runtime.logging.Loggable;
 import org.apache.log4j.Logger;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
