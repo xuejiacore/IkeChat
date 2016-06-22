@@ -8,6 +8,7 @@
 package org.ike.wechat.core.config;
 
 import org.ike.wechat.core.IkeChat;
+import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.utils.PropertiesUtil;
 
 /**
@@ -20,8 +21,25 @@ import org.ike.wechat.utils.PropertiesUtil;
  * Description: 微信默认配置类
  */
 public class DefaultConfiguration extends AbstractConfiguration {
+
     public DefaultConfiguration() {
-        setAppid(PropertiesUtil.getValue(IkeChat.P_APP_ID));
-        setSecretKey(PropertiesUtil.getValue(IkeChat.P_SECRET));
+        AuthorInfo authorInfo = new AuthorInfo();
+        authorInfo.setAppid(PropertiesUtil.getValue(IkeChat.P_APP_ID));
+        authorInfo.setSecretKey(PropertiesUtil.getValue(IkeChat.P_SECRET));
+        setAuthorInfo(authorInfo);
+    }
+
+    public IConfiguration setAuthorInfo(AuthorInfo authorInfo) {
+        this.authorInfo = authorInfo;
+        return this;
+    }
+
+    public AuthorInfo getAuthorInfo() {
+        return this.authorInfo;
+    }
+
+    @Override
+    public IStorage initStorageProcessor() {
+        return new DefaultFileStorage();
     }
 }

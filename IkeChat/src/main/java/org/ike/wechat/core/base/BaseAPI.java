@@ -63,14 +63,14 @@ public class BaseAPI extends AbstractApi {
                     throw new DeniedOperationException("拒绝不安全的操作操作!");
                 }
                 Response response = new Response(httpsPostReq(String.format(CGI_REFRESH_TOKEN,
-                        IkeChat.getConfig().getAppid(),
-                        IkeChat.getConfig().getSecretKey()), parameters));
+                        IkeChat.getAuthorInfo().getAppid(),
+                        IkeChat.getAuthorInfo().getSecretKey()), parameters));
                 Map resultMap = response.toMap();
-                IkeChat.getConfig().setAccessToken((String) resultMap.get("access_token"));
-                IkeChat.getConfig().setAccessTokenExpireIn((Integer) resultMap.get("expires_in"));
+                IkeChat.getAuthorInfo().setAccessToken((String) resultMap.get("access_token"));
+                IkeChat.getAuthorInfo().setAccessTokenExpireIn((Integer) resultMap.get("expires_in"));
                 return response;
             } else if (apiIs(IkeChat.API_LIST_SERVER_IPS)) {
-                return new Response(httpsGetReq(String.format(CGI_SERVER_IPS, IkeChat.getConfig().getAccessToken()), null));
+                return new Response(httpsGetReq(String.format(CGI_SERVER_IPS, IkeChat.getAuthorInfo().getAccessToken()), null));
             }
         } catch (UnverifiedParameterException unverifiedParameter) {
             unverifiedParameter.printStackTrace();

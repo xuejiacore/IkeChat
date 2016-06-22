@@ -7,6 +7,8 @@
  **/
 package org.ike.wechat.core.config;
 
+import org.ike.wechat.core.auth.AuthorInfo;
+
 /**
  * Class Name: IConfiguration
  * Create Date: 2016/6/11 20:13
@@ -17,47 +19,18 @@ package org.ike.wechat.core.config;
  * Description: 微信配置接口
  */
 public interface IConfiguration {
-    String getAppid();
+    /**
+     * 设置凭证信息到配置中
+     *
+     * @param authorInfo 凭证信息
+     * @return 返回当前的配置实例
+     */
+    IConfiguration setAuthorInfo(AuthorInfo authorInfo);
 
-    void setAppid(String appid);
-
-    String getSecretKey();
-
-    void setSecretKey(String secretKey);
-
-    String getAccessToken();
-
-    void setAccessToken(String accessToken);
-
-    int getAccessTokenExpireIn();
-
-    void setAccessTokenExpireIn(int accessTokenExpireIn);
-
-    String getJsTicket();
-
-    void setJsTicket(String jsTicket);
-
-    int getJsTicketExpireIn();
-
-    void setJsTicketExpireIn(int jsTicketExpireIn);
-
-    String getWebAccessToken();
-
-    void setWebAccessToken(String webAccessToken);
-
-    int getWebAccessTokenExpireIn();
-
-    void setWebAccessTokenExpireIn(int webAccessTokenExpireIn);
-
-    boolean isAccessTokenEffective();
-
-    void setIsAccessTokenEffective(boolean isAccessTokenEffective);
-
-    boolean isJsTicketEffective();
-
-    void setIsJsTicketEffective(boolean isJsTicketEffective);
-
-    boolean isWebTokenEffective();
-
-    void setIsWebTokenEffective(boolean isWebTokenEffective);
+    /**
+     * 从配置中获得凭证信息
+     *
+     * @return 凭证信息
+     */
+    AuthorInfo getAuthorInfo();
 }

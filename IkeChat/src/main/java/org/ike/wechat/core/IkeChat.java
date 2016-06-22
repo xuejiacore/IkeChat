@@ -9,6 +9,7 @@ package org.ike.wechat.core;
 
 import org.apache.log4j.Logger;
 import org.ike.wechat.TestAPI;
+import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.core.base.BaseAPI;
 import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.core.config.IConfiguration;
@@ -169,6 +170,7 @@ public class IkeChat {
     public static boolean loadConfiguration(IConfiguration conf) {
         // TODO：加载微信配置文件
         IkeChat.configuration = conf;
+        System.err.println(conf);
         return true;
     }
 
@@ -259,12 +261,14 @@ public class IkeChat {
      *
      * @return 实现了IConfiguration的配置实例
      */
-    public static IConfiguration getConfig() {
-        return configuration;
+    public static AuthorInfo getAuthorInfo() {
+        return configuration.getAuthorInfo();
     }
 
     public static void main(String[] args) throws InvalidateParametersException, InvalidateAPIException {
         IkeChat.loadConfiguration(new DefaultConfiguration());
         System.err.println(IkeChat.req(IkeChat.API_REFRESH_TOKEN, new Object[][]{PARAM_RELEASE_LOCKER}));
+
+        System.err.println(IkeChat.getAuthorInfo());
     }
 }
