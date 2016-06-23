@@ -92,13 +92,28 @@ public class IkeChat {
      * 为公众号创建分组，POST json 请求，参数name，分组的名称，返回分组id以及分组名称
      * DOCUMENT：http://mp.weixin.qq.com/wiki/0/56d992c605a97245eb7e617854b169fc.html
      */
-    public static final int API_CREATE_USER_GROUP = API_USERS | 0x01;                           // 创建用户分组
-    public static final int API_QUERY_USER_GROUPS = API_USERS | 0x02;                           // 查询分组列表
-    public static final int API_QUERY_USER_GROUP_IN = API_USERS | 0x03;                         // 查询用户所在分组
-    public static final int API_MODIFY_GROUP_NAME = API_USERS | 0x04;                           // 修改用户所在分组
-    public static final int API_MOVE_USER_2_GROUP = API_USERS | 0x05;                           // 单移动用户至分组
-    public static final int API_MOVE_USER_2_GROUP_BAT = API_USERS | 0x06;                       // 批量移动用户至分组
-    public static final int API_DELETE_USER_GROUP = API_USERS | 0x07;                           // 删除分组
+    // -->> 用户分组管理
+    public static final int API_UG_CREATE_USER_GROUP = API_USERS | 0x01;                           // 创建用户分组
+    public static final int API_UG_QUERY_USER_GROUPS = API_USERS | 0x02;                           // 查询分组列表
+    public static final int API_UG_QUERY_USER_GROUP_IN = API_USERS | 0x03;                         // 查询用户所在分组
+    public static final int API_UG_MODIFY_GROUP_NAME = API_USERS | 0x04;                           // 修改用户所在分组
+    public static final int API_UG_MOVE_USER_2_GROUP = API_USERS | 0x05;                           // 单移动用户至分组
+    public static final int API_UG_MOVE_USER_2_GROUP_BAT = API_USERS | 0x06;                       // 批量移动用户至分组
+    public static final int API_UG_DELETE_USER_GROUP = API_USERS | 0x07;                           // 删除分组
+    // -->> 用户标签管理
+    public static final int API_UT_CREATE_USER_TAG = API_USERS | 0x08;                             // 创建标签(注意与分组有交集)
+    public static final int API_UT_FETCH_TAGS = API_USERS | 0x09;                                  // 获取已经存在的标签
+    public static final int API_UT_EDIT_TAG = API_USERS | 0x0a;                                    // 编辑标签
+    public static final int API_UT_DELETE_TAG = API_USERS | 0x0b;                                  // 删除标签
+    public static final int API_UT_FETCH_FANS_BY_TAG = API_USERS | 0x0c;                           // 根据标签获取粉丝列表
+    public static final int API_UT_TAG_2_USER_BAT = API_USERS | 0x0d;                              // 批量为用户打标签
+    public static final int API_UT_RM_TAG_BAT = API_USERS | 0x0e;                                  // 批量取消用户标签
+    public static final int API_UT_FETCH_USER_TAGS = API_USERS | 0x0f;                             // 获取用户身上的所有标签
+    // -->> 用户备注
+    public static final int API_UR_SET_USER_REMARK = API_USERS | 0x10;                             // 为用户设置备注
+    // -->> 用户信息
+    public static final int API_UI_FETCH_USER_INFO = API_USERS | 0x20;                             // 获得用户的信息
+    public static final int API_UI_FETCH_USER_LIST = API_USERS | 0x30;                             // 获取用户列表
 
     // 推广支持
     // 界面丰富

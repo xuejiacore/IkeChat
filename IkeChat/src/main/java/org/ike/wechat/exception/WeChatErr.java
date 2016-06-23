@@ -107,13 +107,22 @@ public class WeChatErr {
         ERRORS.put(45015, "回复时间超过限制");
         ERRORS.put(45016, "系统分组，不允许修改");
         ERRORS.put(45017, "分组名字过长");
-        ERRORS.put(45018, "分组数量超过上限");
+
+        ERRORS.put(45056, "创建的标签数过多，请注意不能超过100个");
+        ERRORS.put(45057, "该标签下粉丝数超过10w，不允许直接删除");
+        ERRORS.put(45058, "不能修改0/1/2这三个系统默认保留的标签");
+        ERRORS.put(45059, "有粉丝身上的标签数已经超过限制");
+        ERRORS.put(45157, "标签名非法，请注意不能和其他标签重名");
+        ERRORS.put(45158, "标签名长度超过30个字节");
+        ERRORS.put(45159, "非法的标签ID");
+
         ERRORS.put(46001, "不存在媒体数据");
         ERRORS.put(46002, "不存在的菜单版本");
         ERRORS.put(46003, "不存在的菜单数据");
         ERRORS.put(46004, "不存在的用户");
         ERRORS.put(47001, "解析JSON/XML内容错误");
         ERRORS.put(48001, "api功能未授权，请确认公众号已获得该接口，可以在公众平台官网-开发者中心页中查看接口权限");
+        ERRORS.put(49003, "传入的openid不属于此AppID");
         ERRORS.put(50001, "用户未授权该api");
         ERRORS.put(50002, "用户受限，可能是违规后接口被封禁");
         ERRORS.put(61451, "参数错误(invalid parameter)");

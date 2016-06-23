@@ -35,7 +35,8 @@ public class Parameters extends HashMap<Object, IParameterValue> {
 
     @Override
     public IParameterValue get(Object key) {
-        return super.get(new ParameterKey(key).getKey());
+        IParameterValue value = super.get(new ParameterKey(key).getKey());
+        return value == null ? new ParameterValue("") : value;
     }
 
     @Override
@@ -43,4 +44,7 @@ public class Parameters extends HashMap<Object, IParameterValue> {
         return this.keySet.contains(key instanceof String ? key : key.toString());
     }
 
+    public Object getOrDef(Object key, Object def) {
+        return super.get(new ParameterKey(key).getKey()) == null ? def : get(key);
+    }
 }
