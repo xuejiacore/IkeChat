@@ -5,7 +5,7 @@
  * Date Time: 2016/6/11 20:13
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.config;
+package org.ike.wechat.core.config;
 
 import org.ike.wechat.core.auth.AuthorInfo;
 

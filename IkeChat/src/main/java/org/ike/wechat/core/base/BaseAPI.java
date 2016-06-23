@@ -44,8 +44,8 @@ public class BaseAPI extends AbstractApi {
             } else if (apiIs(IkeChat.API_LIST_SERVER_IPS)) {
                 return new IParameterKey[0];
             }
-        } catch (UnverifiedParameterException unverifiedParameter) {
-            unverifiedParameter.printStackTrace();
+        } catch (UnverifiedParameterException e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -18,16 +18,16 @@ import java.io.*;
 import java.util.HashMap;
 
 /**
- * Class Name: DefaultFileStorage
+ * Class Name: DefaultFileCache
  * Create Date: 2016/6/22 0:27
  * Creator: Xuejia
  * Version: v1.0
  * Updater:
  * Date Time:
- * Description:
+ * Description:默认的凭证文件写入器
  */
-public class DefaultFileStorage implements IStorage {
-    public boolean onTokenSave(AuthorInfo info) {
+public class DefaultFileCache implements ICache {
+    public boolean onCache(AuthorInfo info) {
         HashMap<String, Object> saveInfo = new HashMap<String, Object>();
         saveInfo.put("access_token", info.getAccessToken());
         saveInfo.put("access_token_expire_in", info.getAccessTokenExpireIn() + "");
@@ -65,7 +65,7 @@ public class DefaultFileStorage implements IStorage {
         return true;
     }
 
-    public AuthorInfo onTokenRead() {
+    public AuthorInfo onCacheLoading() {
         AuthorInfo authorInfo = new AuthorInfo();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(PropertiesUtil.getValue(IkeChat.P_SECRET_KEY_PATH)));
@@ -107,6 +107,6 @@ public class DefaultFileStorage implements IStorage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return authorInfo;
     }
 }

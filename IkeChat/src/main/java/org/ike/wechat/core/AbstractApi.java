@@ -45,8 +45,8 @@ public abstract class AbstractApi implements IAPI {
                 for (IParameterKey key : parameterKeys) {
                     sb.append(key.getKey()).append(", ");
                 }
-                throw new InvalidateParametersException(String.format("缺少必要参数 %s 中的 %s",
-                        sb.substring(0, sb.length() - 2) + "]", parameterKey));
+                throw new InvalidateParametersException(String.format("缺少必要参数 %s 中的 [%s: %s]",
+                        sb.substring(0, sb.length() - 2) + "]", parameterKey, parameterKey.getDesc()));
             }
         }
         return true;
@@ -63,7 +63,7 @@ public abstract class AbstractApi implements IAPI {
         if (this.apiId == -1) {
             throw new UnverifiedParameterException("未调用validateApiParams方法对参数进行校验!");
         }
-        return (this.apiId & apiId) == apiId;
+        return (this.apiId & apiId) == Math.max(this.apiId, apiId);
     }
 
     /**
@@ -80,6 +80,10 @@ public abstract class AbstractApi implements IAPI {
             e.printStackTrace();
         }
         return null;
+    }
+
+    protected String httpsJsonPostReq(String url, String jsonData) {
+        return jsonRequest(url, jsonData);
     }
 
     /**
@@ -149,6 +153,12 @@ public abstract class AbstractApi implements IAPI {
         }
         // 在任何一次请求完成后，都需要将API的调用锁锁上，防止恶意调用
         IkeChat.lock();
-        return "{\"access_token\":\"asdasd\"}";
+        return "{\"errorCode\":\"error\"}";
+    }
+
+    private String jsonRequest(String url, String jsonData) {
+        String result = NetworkKit.sshPostJson(url, jsonData, "UTF-8");
+        IkeChat.lock();
+        return result;
     }
 }

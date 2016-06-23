@@ -11,8 +11,9 @@ import org.apache.log4j.Logger;
 import org.ike.wechat.TestAPI;
 import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.core.base.BaseAPI;
-import org.ike.wechat.config.DefaultConfiguration;
-import org.ike.wechat.config.IConfiguration;
+import org.ike.wechat.core.config.DefaultConfiguration;
+import org.ike.wechat.core.config.IConfiguration;
+import org.ike.wechat.core.user.UserAPI;
 import org.ike.wechat.exception.InvalidateAPIException;
 import org.ike.wechat.exception.InvalidateParametersException;
 import org.ike.wechat.parser.ParameterKey;
@@ -87,6 +88,18 @@ public class IkeChat {
     // 接收消息
     // 发送消息
     // 用户管理
+    /**
+     * 为公众号创建分组，POST json 请求，参数name，分组的名称，返回分组id以及分组名称
+     * DOCUMENT：http://mp.weixin.qq.com/wiki/0/56d992c605a97245eb7e617854b169fc.html
+     */
+    public static final int API_CREATE_USER_GROUP = API_USERS | 0x01;                           // 创建用户分组
+    public static final int API_QUERY_USER_GROUPS = API_USERS | 0x02;                           // 查询分组列表
+    public static final int API_QUERY_USER_GROUP_IN = API_USERS | 0x03;                         // 查询用户所在分组
+    public static final int API_MODIFY_GROUP_NAME = API_USERS | 0x04;                           // 修改用户所在分组
+    public static final int API_MOVE_USER_2_GROUP = API_USERS | 0x05;                           // 单移动用户至分组
+    public static final int API_MOVE_USER_2_GROUP_BAT = API_USERS | 0x06;                       // 批量移动用户至分组
+    public static final int API_DELETE_USER_GROUP = API_USERS | 0x07;                           // 删除分组
+
     // 推广支持
     // 界面丰富
     // 素材管理
@@ -115,7 +128,7 @@ public class IkeChat {
     static {
         IkeChat.apiMapper.put(API_USERS, TestAPI.class);
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);
-        IkeChat.apiMapper.put(API_USERS, TestAPI.class);
+        IkeChat.apiMapper.put(API_USERS, UserAPI.class);
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);
         IkeChat.apiMapper.put(API_MENU, TestAPI.class);
         IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);
@@ -170,7 +183,6 @@ public class IkeChat {
     public static boolean loadConfiguration(IConfiguration conf) {
         // TODO：加载微信配置文件
         IkeChat.configuration = conf;
-        System.err.println(conf);
         return true;
     }
 

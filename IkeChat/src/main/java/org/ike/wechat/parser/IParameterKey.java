@@ -23,4 +23,11 @@ public interface IParameterKey extends IParameter {
      * @return 返回键名
      */
     String getKey();
+
+    /**
+     * 获得参数的描述
+     *
+     * @return 返回参数描述
+     */
+    String getDesc();
 }

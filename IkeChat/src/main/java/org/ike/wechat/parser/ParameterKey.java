@@ -46,6 +46,10 @@ public class ParameterKey implements IParameterKey {
         return this.key.toString();
     }
 
+    public String getDesc() {
+        return this.keyDesc;
+    }
+
     @Override
     public String toString() {
         return getKey();

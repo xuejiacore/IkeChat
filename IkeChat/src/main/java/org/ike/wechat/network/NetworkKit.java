@@ -311,7 +311,7 @@ public class NetworkKit {
             for (NameValuePair pair : pairs) {
                 params += pair.getName() + "=" + pair.getValue() + "&";
             }
-            params = params.substring(0, params.length() - 1);
+            params = params.length() != 0 ? params.substring(0, params.length() - 1) : "";
         }
         logger.debug("* 【 url: " + url + " 】");
         logger.debug("* *【 params: " + params + " 】");

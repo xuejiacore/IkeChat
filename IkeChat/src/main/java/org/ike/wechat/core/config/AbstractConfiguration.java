@@ -5,10 +5,10 @@
  * Date Time: 2016/6/18 22:06
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.config;
+package org.ike.wechat.core.config;
 
 import org.apache.log4j.Logger;
-import org.ike.wechat.cache.IStorage;
+import org.ike.wechat.cache.ICache;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.exception.InvalidateAPIException;
@@ -21,35 +21,33 @@ import org.ike.wechat.exception.InvalidateParametersException;
  * Version: v1.0
  * Updater:
  * Date Time:
- * Description:
+ * Description: 抽象微信配置类
  */
 public abstract class AbstractConfiguration implements IConfiguration {
+    // 授权的缓存接口
+    private static ICache storageProcessor = null;
 
-    static Logger logger = Logger.getLogger(IkeChat.LOGGER_NAME);
+    // 授权信息
+    protected static AuthorInfo authorInfo = new AuthorInfo();
 
-    /**
-     * 授权的存储接口
-     */
-    private static IStorage storageProcessor = null;
 
-    protected AuthorInfo authorInfo = new AuthorInfo();
 
     /**
      * API初始化自动从配置路径中加载当前有效的凭证，如果凭证的超过凭证的有效期，那么将自动进行刷新操作
      */
-
     public AbstractConfiguration() {
         storageProcessor = initStorageProcessor();
         if (storageProcessor != null) {
-            authorInfo = storageProcessor.onTokenRead();
+            authorInfo = storageProcessor.onCacheLoading();
         }
+        // TODO：从缓存中加载配置的时候，判断凭证是否依然有效，如果过期，那么将自动进行刷新
+//        autoRefreshToken();
+
+
+        // 在API退出的时候将授权凭证进行存储
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
-                // TODO：AuthorInfo 需要进行硬盘存储，每次从硬盘中读取上次的时间以及各种信息，可以使用Gson将信息写到配置文件中
-                logger.debug("微信API退出，进行授权信息的保存操作");
-                if (storageProcessor != null) {
-                    storageProcessor.onTokenSave(authorInfo);
-                }
+                saveToken2Disk();
             }
         }));
     }
@@ -75,10 +73,17 @@ public abstract class AbstractConfiguration implements IConfiguration {
      * @return 如果保存成功，那么返回值为true，否则返回值为false
      */
     public static boolean saveToken2Disk() {
-
+        Logger.getLogger(IkeChat.LOGGER_NAME).debug("微信API退出，进行授权信息的保存操作");
+        if (storageProcessor != null) {
+            storageProcessor.onCache(authorInfo);
+        }
         return true;
     }
 
-    public abstract IStorage initStorageProcessor();
-
+    /**
+     * 配置类需要实现该抽象方法，用于对凭证信息的存取缓存实现
+     *
+     * @return 返回一个实现了缓存接口的存取实例
+     */
+    public abstract ICache initStorageProcessor();
 }

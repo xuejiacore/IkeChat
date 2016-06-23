@@ -5,10 +5,10 @@
  * Date Time: 2016/6/11 20:14
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.config;
+package org.ike.wechat.core.config;
 
-import org.ike.wechat.cache.DefaultFileStorage;
-import org.ike.wechat.cache.IStorage;
+import org.ike.wechat.cache.DefaultFileCache;
+import org.ike.wechat.cache.ICache;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.utils.PropertiesUtil;
@@ -25,23 +25,23 @@ import org.ike.wechat.utils.PropertiesUtil;
 public class DefaultConfiguration extends AbstractConfiguration {
 
     public DefaultConfiguration() {
-        AuthorInfo authorInfo = new AuthorInfo();
+        AuthorInfo authorInfo = getAuthorInfo();
         authorInfo.setAppid(PropertiesUtil.getValue(IkeChat.P_APP_ID));
         authorInfo.setSecretKey(PropertiesUtil.getValue(IkeChat.P_SECRET));
         setAuthorInfo(authorInfo);
     }
 
     public IConfiguration setAuthorInfo(AuthorInfo authorInfo) {
-        this.authorInfo = authorInfo;
+        AbstractConfiguration.authorInfo = authorInfo;
         return this;
     }
 
     public AuthorInfo getAuthorInfo() {
-        return this.authorInfo;
+        return authorInfo;
     }
 
     @Override
-    public IStorage initStorageProcessor() {
-        return new DefaultFileStorage();
+    public ICache initStorageProcessor() {
+        return new DefaultFileCache();
     }
 }

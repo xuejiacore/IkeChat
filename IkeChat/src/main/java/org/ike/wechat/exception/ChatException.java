@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.ike.wechat.core.IkeChat;
-import org.ike.wechat.config.AbstractConfiguration;
+import org.ike.wechat.core.config.AbstractConfiguration;
 
 import java.io.IOException;
 
