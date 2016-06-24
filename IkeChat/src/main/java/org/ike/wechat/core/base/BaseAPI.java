@@ -30,12 +30,8 @@ import java.util.Map;
  */
 public class BaseAPI extends AbstractApi {
 
-    // 刷新access token cgi
-    private static final String CGI_REFRESH_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-            "&appid=%s&secret=%s";
-
-    // 获取服务器的ip列表
-    private static final String CGI_SERVER_IPS = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s";
+    private static final String CGI_REFRESH_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";// 刷新access token cgi
+    private static final String CGI_SERVER_IPS = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s";                           // 获取服务器的ip列表
 
     public IParameterKey[] getNecessaryParams(int apiId) {
         try {
@@ -62,9 +58,7 @@ public class BaseAPI extends AbstractApi {
                 } else {
                     throw new DeniedOperationException("拒绝不安全的操作操作!");
                 }
-                Response response = new Response(httpsPostReq(String.format(CGI_REFRESH_TOKEN,
-                        IkeChat.getAuthorInfo().getAppid(),
-                        IkeChat.getAuthorInfo().getSecretKey()), parameters));
+                Response response = new Response(httpsPostReq(String.format(CGI_REFRESH_TOKEN, IkeChat.getAuthorInfo().getAppid(), IkeChat.getAuthorInfo().getSecretKey()), parameters));
                 Map resultMap = response.toMap();
                 IkeChat.getAuthorInfo().setAccessToken((String) resultMap.get("access_token"));
                 IkeChat.getAuthorInfo().setAccessTokenExpireIn((Integer) resultMap.get("expires_in"));

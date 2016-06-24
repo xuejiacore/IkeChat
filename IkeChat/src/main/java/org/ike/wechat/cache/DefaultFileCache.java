@@ -68,7 +68,9 @@ public class DefaultFileCache implements ICache {
     public AuthorInfo onCacheLoading() {
         AuthorInfo authorInfo = new AuthorInfo();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(PropertiesUtil.getValue(IkeChat.P_SECRET_KEY_PATH)));
+            File confFile = new File(PropertiesUtil.getValue(IkeChat.P_SECRET_KEY_PATH));
+            if (!confFile.exists() && confFile.createNewFile());
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(confFile));
             StringBuilder sb = new StringBuilder();
             String tmp;
             while ((tmp = bufferedReader.readLine()) != null) {

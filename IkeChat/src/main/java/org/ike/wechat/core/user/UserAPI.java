@@ -32,46 +32,27 @@ import java.util.HashMap;
  * Description: 对话服务-用户管理
  * Document:http://mp.weixin.qq.com/wiki/0/56d992c605a97245eb7e617854b169fc.html
  * <p/>
- * Remark:2016-06-23 09:15:34 用户管理封装完成
  */
 public class UserAPI extends AbstractApi {
 
-    // 创建用户分组
-    private static final String CGI_CREATE_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token=%s";
-    // 查询用户分组
-    private static final String CGI_QUERY_USER_GROUPS = "https://api.weixin.qq.com/cgi-bin/groups/get?access_token=%s";
-    // 查询用户所在的分组
-    private static final String CGI_QUERY_USER_GROUP_IN = "https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=%s";
-    // 修改分组名
-    private static final String CGI_MODIFY_GROUP_NAME = "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=%s";
-    // 移动用户分组
-    private static final String CGI_MOVE_USER_2_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=%s";
-    // 批量移动用户分组
-    private static final String CGI_MOVE_USER_2_GROUP_BAT = "https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate?access_token=%s";
-    // 删除分组
-    private static final String CGI_DELETE_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/delete?access_token=%s";
-    // 创建用户标签
-    private static final String CGI_CREATE_USER_TAG = "https://api.weixin.qq.com/cgi-bin/tags/create?access_token=%s";
-    // 获取已经创建的标签
-    private static final String CGI_FETCH_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/get?access_token=%s";
-    // 编辑标签
-    private static final String CGI_EDIT_TAG = "https://api.weixin.qq.com/cgi-bin/tags/update?access_token=%s";
-    // 删除标签
-    private static final String CGI_DELETE_TAG = "https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=%s";
-    // 获取标签下的粉丝列表
-    private static final String CGI_FETCH_FANS_BY_TAG = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=%s";
-    // 批量为用户打标签
-    private static final String CGI_TAG_2_USER_BAT = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=%s";
-    // 批量为用户取消标签
-    private static final String CGI_RM_TAG_BAT = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=%s";
-    // 获取用户身上的所有标签
-    private static final String CGI_FETCH_USER_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=%s";
-    // 设置用户的备注
-    private static final String CGI_SET_USER_REMARK = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=%s";
-    // 获取用户的基本信息
-    private static final String CGI_FETCH_USER_INFO = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=%s";
-    // 获取用户列表
-    private static final String CGI_FETCH_USER_LIST = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid=%s";
+    private static final String CGI_CREATE_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token=%s";          // 创建用户分组
+    private static final String CGI_QUERY_USER_GROUPS = "https://api.weixin.qq.com/cgi-bin/groups/get?access_token=%s";             // 查询用户分组
+    private static final String CGI_QUERY_USER_GROUP_IN = "https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=%s";         // 查询用户所在的分组
+    private static final String CGI_MODIFY_GROUP_NAME = "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=%s";          // 修改分组名
+    private static final String CGI_MOVE_USER_2_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=%s";  // 移动用户分组
+    private static final String CGI_MOVE_USER_2_GROUP_BAT = "https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate?access_token=%s";// 批量移动用户分组
+    private static final String CGI_DELETE_USER_GROUP = "https://api.weixin.qq.com/cgi-bin/groups/delete?access_token=%s";          // 删除分组
+    private static final String CGI_CREATE_USER_TAG = "https://api.weixin.qq.com/cgi-bin/tags/create?access_token=%s";              // 创建用户标签
+    private static final String CGI_FETCH_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/get?access_token=%s";                      // 获取已经创建的标签
+    private static final String CGI_EDIT_TAG = "https://api.weixin.qq.com/cgi-bin/tags/update?access_token=%s";                     // 编辑标签
+    private static final String CGI_DELETE_TAG = "https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=%s";                   // 删除标签
+    private static final String CGI_FETCH_FANS_BY_TAG = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=%s";           // 获取标签下的粉丝列表
+    private static final String CGI_TAG_2_USER_BAT = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=%s"; // 批量为用户打标签
+    private static final String CGI_RM_TAG_BAT = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=%s";   // 批量为用户取消标签
+    private static final String CGI_FETCH_USER_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=%s";           // 获取用户身上的所有标签
+    private static final String CGI_SET_USER_REMARK = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=%s";   // 设置用户的备注
+    private static final String CGI_FETCH_USER_INFO = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=%s";// 获取用户的基本信息
+    private static final String CGI_FETCH_USER_LIST = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid=%s";  // 获取用户列表
 
     public IParameterKey[] getNecessaryParams(int apiId) {
         try {

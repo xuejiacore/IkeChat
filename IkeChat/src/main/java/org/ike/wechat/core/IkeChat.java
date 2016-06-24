@@ -90,7 +90,12 @@ public class IkeChat {
     // 用户管理
     /**
      * 为公众号创建分组，POST json 请求，参数name，分组的名称，返回分组id以及分组名称
+     * 分组管理
      * DOCUMENT：http://mp.weixin.qq.com/wiki/0/56d992c605a97245eb7e617854b169fc.html
+     * 标签管理
+     * DOCUMENT：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN
+     * 用户基本信息
+     * DOCUMENT：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839&token=&lang=zh_CN
      */
     // -->> 用户分组管理
     public static final int API_UG_CREATE_USER_GROUP = API_USERS | 0x01;                           // 创建用户分组
