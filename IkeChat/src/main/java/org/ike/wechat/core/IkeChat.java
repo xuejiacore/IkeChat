@@ -9,6 +9,7 @@ package org.ike.wechat.core;
 
 import org.apache.log4j.Logger;
 import org.ike.wechat.TestAPI;
+import org.ike.wechat.core.acc.AccountAPI;
 import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.core.base.BaseAPI;
 import org.ike.wechat.core.config.DefaultConfiguration;
@@ -71,6 +72,7 @@ public class IkeChat {
     static Logger logger = Logger.getLogger(IkeChat.LOGGER_NAME);
     private static HashMap<Integer, Class<? extends IAPI>> apiMapper = new HashMap<Integer, Class<? extends IAPI>>();
 
+    public static final String API_EXCHANGE_SCENCE_QR = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // ****** TODO：对话服务接口开始-->
     // 基础支持
@@ -123,6 +125,9 @@ public class IkeChat {
     // 推广支持
     // 界面丰富
     // 素材管理
+    // 账号管理
+    public static final int API_AC_CREATE_QR = API_ACCOUNT | 0x01;                                  // 创建带场景值二维码
+    public static final int API_LURL_2_SURL = API_ACCOUNT | 0x02;                                   // 长地址转短地址
     // ****** 对话服务接口结束
 
     // ****** TODO：功能服务接口开始-->
@@ -154,7 +159,7 @@ public class IkeChat {
         IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);
         IkeChat.apiMapper.put(API_WEB, TestAPI.class);
         IkeChat.apiMapper.put(API_MATERIAL, TestAPI.class);
-        IkeChat.apiMapper.put(API_ACCOUNT, TestAPI.class);
+        IkeChat.apiMapper.put(API_ACCOUNT, AccountAPI.class);
         IkeChat.apiMapper.put(API_DATA, TestAPI.class);
         IkeChat.apiMapper.put(API_COUPONS, TestAPI.class);
         IkeChat.apiMapper.put(API_STORE, TestAPI.class);
