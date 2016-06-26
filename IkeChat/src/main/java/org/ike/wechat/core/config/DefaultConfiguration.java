@@ -11,7 +11,10 @@ import org.ike.wechat.cache.DefaultFileCache;
 import org.ike.wechat.cache.ICache;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
+import org.ike.wechat.log.IResponseListener;
 import org.ike.wechat.utils.PropertiesUtil;
+
+import java.util.Date;
 
 /**
  * Class Name: DefaultConfiguration
@@ -38,6 +41,20 @@ public class DefaultConfiguration extends AbstractConfiguration {
 
     public AuthorInfo getAuthorInfo() {
         return authorInfo;
+    }
+
+    public IResponseListener getResponseListener() {
+        return new IResponseListener() {
+            public void onSuccess(int apiId, String msg, AuthorInfo authorInfo) {
+                System.out.println("----------------\n" + new Date() + " - Success!\napiId : " +
+                        Integer.toBinaryString(apiId) + "(" + apiId + ")\nmsg : " + msg + "\n" + authorInfo.getCoreInfo() + "\n----------------");
+            }
+
+            public void onFailure(int apiId, String msg, AuthorInfo authorInfo) {
+                System.out.println("----------------\n" + new Date() + " - Failure!\napiId : " +
+                        Integer.toBinaryString(apiId) + "(" + apiId + ")\nmsg : " + msg + "\n" + authorInfo.getCoreInfo() + "\n----------------");
+            }
+        };
     }
 
     @Override

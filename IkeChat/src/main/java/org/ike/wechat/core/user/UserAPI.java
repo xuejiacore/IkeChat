@@ -11,7 +11,8 @@ import com.google.gson.Gson;
 import org.ike.wechat.core.AbstractApi;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.config.DefaultConfiguration;
-import org.ike.wechat.core.user.domain.UserGroup;
+import org.ike.wechat.core.user.bean.UserGroup;
+import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.InvalidateAPIException;
 import org.ike.wechat.exception.InvalidateParametersException;
 import org.ike.wechat.exception.UnverifiedParameterException;
@@ -20,6 +21,7 @@ import org.ike.wechat.parser.ParameterKey;
 import org.ike.wechat.parser.Parameters;
 import org.ike.wechat.parser.Response;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -106,82 +108,86 @@ public class UserAPI extends AbstractApi {
                 // 创建用户分组
                 HashMap<String, UserGroup> group = new HashMap<String, UserGroup>();
                 group.put("group", (UserGroup) parameters.get("group").getValue());
-                return new Response(httpsJsonPostReq(String.format(CGI_CREATE_USER_GROUP, IkeChat.getAuthorInfo().getAccessToken()), new Gson().toJson(group)));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_CREATE_USER_GROUP, IkeChat.getAuthorInfo().getAccessToken()), new Gson().toJson(group)));
 
             } else if (apiIs(IkeChat.API_UG_QUERY_USER_GROUPS)) {
                 // 获取分组信息
-                return new Response(httpsPostReq(String.format(CGI_QUERY_USER_GROUPS, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                return new Response(apiId,httpsPostReq(String.format(CGI_QUERY_USER_GROUPS, IkeChat.getAuthorInfo().getAccessToken()), parameters));
 
             } else if (apiIs(IkeChat.API_UG_QUERY_USER_GROUP_IN)) {
                 // 根据用户的openId获取用户的分组信息
-                return new Response(httpsJsonPostReq(String.format(CGI_QUERY_USER_GROUP_IN, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\"}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_QUERY_USER_GROUP_IN, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\"}"));
 
             } else if (apiIs(IkeChat.API_UG_MODIFY_GROUP_NAME)) {
                 // 修改分组
-                return new Response(httpsJsonPostReq(String.format(CGI_MODIFY_GROUP_NAME, IkeChat.getAuthorInfo().getAccessToken()), "{\"group\":{\"id\":" + parameters.get("id").getValue() + ", \"name\":\"" + parameters.get("name").getValue() + "\"}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_MODIFY_GROUP_NAME, IkeChat.getAuthorInfo().getAccessToken()), "{\"group\":{\"id\":" + parameters.get("id").getValue() + ", \"name\":\"" + parameters.get("name").getValue() + "\"}"));
 
             } else if (apiIs(IkeChat.API_UG_MOVE_USER_2_GROUP)) {
                 // 将一个用户移动到另外一个分组
-                return new Response(httpsJsonPostReq(String.format(CGI_MOVE_USER_2_GROUP, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\", \"to_groupid\":" + parameters.get("to_groupid").getValue() + "}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_MOVE_USER_2_GROUP, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\", \"to_groupid\":" + parameters.get("to_groupid").getValue() + "}"));
 
             } else if (apiIs(IkeChat.API_UG_MOVE_USER_2_GROUP_BAT)) {
                 // 批量移动用户到另外一个分组
                 HashMap<String, Object> postData = new HashMap<String, Object>();
                 postData.put("openid_list", parameters.get("openid_list").getValue());
                 postData.put("to_groupid", parameters.get("to_groupid").getValue());
-                return new Response(httpsJsonPostReq(String.format(CGI_MOVE_USER_2_GROUP_BAT, IkeChat.getAuthorInfo().getAccessToken()), new Gson().toJson(postData)));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_MOVE_USER_2_GROUP_BAT, IkeChat.getAuthorInfo().getAccessToken()), new Gson().toJson(postData)));
 
             } else if (apiIs(IkeChat.API_UG_DELETE_USER_GROUP)) {
                 // 根据分组ID删除用户分组
-                return new Response(httpsJsonPostReq(String.format(CGI_DELETE_USER_GROUP, IkeChat.getAuthorInfo().getAccessToken()), "{\"group\":{\"id\":" + parameters.get("id").getValue() + "}}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_DELETE_USER_GROUP, IkeChat.getAuthorInfo().getAccessToken()), "{\"group\":{\"id\":" + parameters.get("id").getValue() + "}}"));
 
             } else if (apiIs(IkeChat.API_UT_CREATE_USER_TAG)) {
                 // 创建一个用户标签
-                return new Response(httpsJsonPostReq(String.format(CGI_CREATE_USER_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tag\":{\"name\":\"" + parameters.get("name").getValue() + "\"}}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_CREATE_USER_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tag\":{\"name\":\"" + parameters.get("name").getValue() + "\"}}"));
 
             } else if (apiIs(IkeChat.API_UT_FETCH_TAGS)) {
                 // 获得已经创建的用户标签
-                return new Response(httpsJsonPostReq(String.format(CGI_FETCH_TAGS, IkeChat.getAuthorInfo().getAccessToken()), ""));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_FETCH_TAGS, IkeChat.getAuthorInfo().getAccessToken()), ""));
 
             } else if (apiIs(IkeChat.API_UT_EDIT_TAG)) {
                 // 编辑用户标签
-                return new Response(httpsJsonPostReq(String.format(CGI_EDIT_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tag\":{\"id\":" + parameters.get("id").getValue() + ", \"name\":\"" + parameters.get("name").getValue() + "\"}}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_EDIT_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tag\":{\"id\":" + parameters.get("id").getValue() + ", \"name\":\"" + parameters.get("name").getValue() + "\"}}"));
 
             } else if (apiIs(IkeChat.API_UT_DELETE_TAG)) {
                 // 删除用户标签
-                return new Response(httpsJsonPostReq(String.format(CGI_DELETE_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tag\":{\"id\":" + parameters.get("id").getValue() + "}}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_DELETE_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tag\":{\"id\":" + parameters.get("id").getValue() + "}}"));
 
             } else if (apiIs(IkeChat.API_UT_FETCH_FANS_BY_TAG)) {
                 // 根据标签获取用户列表
-                return new Response(httpsJsonPostReq(String.format(CGI_FETCH_FANS_BY_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tagid\":" + parameters.get("tagid").getValue() + ", \"next_openid\":\"" + parameters.get("next_openid").getValue() + "\"}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_FETCH_FANS_BY_TAG, IkeChat.getAuthorInfo().getAccessToken()), "{\"tagid\":" + parameters.get("tagid").getValue() + ", \"next_openid\":\"" + parameters.get("next_openid").getValue() + "\"}"));
 
             } else if (apiIs(IkeChat.API_UT_TAG_2_USER_BAT) || apiIs(IkeChat.API_UT_RM_TAG_BAT)) {
                 // 批量为用户设置标签
                 HashMap<String, Object> postData = new HashMap<String, Object>();
                 postData.put("openid_list", parameters.get("openid_list").getValue());
                 postData.put("tagid", parameters.get("tagid").getValue());
-                return new Response(httpsJsonPostReq(String.format(apiIs(IkeChat.API_UT_TAG_2_USER_BAT) ? CGI_TAG_2_USER_BAT : CGI_RM_TAG_BAT, IkeChat.getAuthorInfo().getAccessToken()), new Gson().toJson(postData)));
+                return new Response(apiId,httpsJsonPostReq(String.format(apiIs(IkeChat.API_UT_TAG_2_USER_BAT) ? CGI_TAG_2_USER_BAT : CGI_RM_TAG_BAT, IkeChat.getAuthorInfo().getAccessToken()), new Gson().toJson(postData)));
 
             } else if (apiIs(IkeChat.API_UT_FETCH_USER_TAGS)) {
-                return new Response(httpsJsonPostReq(String.format(CGI_FETCH_USER_TAGS, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\"}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_FETCH_USER_TAGS, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\"}"));
 
             } else if (apiIs(IkeChat.API_UR_SET_USER_REMARK)) {
-                return new Response(httpsJsonPostReq(String.format(CGI_SET_USER_REMARK, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\", \"remark\":\"" + parameters.get("remark").getValue() + "\"}"));
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_SET_USER_REMARK, IkeChat.getAuthorInfo().getAccessToken()), "{\"openid\":\"" + parameters.get("openid").getValue() + "\", \"remark\":\"" + parameters.get("remark").getValue() + "\"}"));
 
             } else if (apiIs(IkeChat.API_UI_FETCH_USER_INFO)) {
-                return new Response(httpsGetReq(String.format(CGI_FETCH_USER_INFO, IkeChat.getAuthorInfo().getAccessToken(), parameters.get("openid").getValue(), parameters.getOrDef("lang", "zh_CN")), parameters));
+                return new Response(apiId,httpsGetReq(String.format(CGI_FETCH_USER_INFO, IkeChat.getAuthorInfo().getAccessToken(), parameters.get("openid").getValue(), parameters.getOrDef("lang", "zh_CN")), parameters));
 
             } else if (apiIs(IkeChat.API_UI_FETCH_USER_LIST)) {
-                return new Response(httpsGetReq(String.format(CGI_FETCH_USER_LIST, IkeChat.getAuthorInfo().getAccessToken(), parameters.get("next_openid")), parameters));
+                return new Response(apiId,httpsGetReq(String.format(CGI_FETCH_USER_LIST, IkeChat.getAuthorInfo().getAccessToken(), parameters.get("next_openid")), parameters));
 
             }
         } catch (UnverifiedParameterException e) {
+            e.printStackTrace();
+        } catch (ChatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static void main(String[] args) throws InvalidateParametersException, InvalidateAPIException {
+    public static void main(String[] args) throws ChatException, IOException {
         IkeChat.loadConfiguration(new DefaultConfiguration());
 //        IkeChat.req(IkeChat.API_REFRESH_TOKEN, IkeChat.PARAM_RELEASE_LOCKER);
 //
@@ -200,8 +206,8 @@ public class UserAPI extends AbstractApi {
 //                new String[]{"oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk", "oAm5Vt9rxcMzf-UZBHtyNq994qhg"}}, {"tagid", "102"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UT_FETCH_USER_TAGS, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UR_SET_USER_REMARK, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"remark", "测试备注"}}));
-//        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_INFO, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"lang", "zh_CN"}}));
-        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_LIST, IkeChat.PARAM_EMPTY));
+        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_INFO, new Object[][]{{"openid", "oAm5Vt_Cz1AdnFZ4SHGTwZZPxVdYk"}, {"lang", "zh_CN"}}));
+//        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_LIST, IkeChat.PARAM_EMPTY));
 
     }
 }

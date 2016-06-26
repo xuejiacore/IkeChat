@@ -11,8 +11,10 @@ import org.apache.log4j.Logger;
 import org.ike.wechat.cache.ICache;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.auth.AuthorInfo;
-import org.ike.wechat.exception.InvalidateAPIException;
-import org.ike.wechat.exception.InvalidateParametersException;
+import org.ike.wechat.exception.ChatException;
+import org.ike.wechat.log.IResponseListener;
+
+import java.io.IOException;
 
 /**
  * Class Name: AbstractConfiguration
@@ -27,16 +29,17 @@ public abstract class AbstractConfiguration implements IConfiguration {
     // 授权的缓存接口
     private static ICache storageProcessor = null;
 
+    private static IResponseListener responseListener = null;
+
     // 授权信息
     protected static AuthorInfo authorInfo = new AuthorInfo();
-
-
 
     /**
      * API初始化自动从配置路径中加载当前有效的凭证，如果凭证的超过凭证的有效期，那么将自动进行刷新操作
      */
     public AbstractConfiguration() {
         storageProcessor = initStorageProcessor();
+        responseListener = getResponseListener();
         if (storageProcessor != null) {
             authorInfo = storageProcessor.onCacheLoading();
         }
@@ -58,9 +61,9 @@ public abstract class AbstractConfiguration implements IConfiguration {
     private static void autoRefreshToken() {
         try {
             IkeChat.req(IkeChat.API_REFRESH_TOKEN, new Object[][]{IkeChat.PARAM_RELEASE_LOCKER});
-        } catch (InvalidateParametersException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (InvalidateAPIException e) {
+        } catch (ChatException e) {
             e.printStackTrace();
         }
     }

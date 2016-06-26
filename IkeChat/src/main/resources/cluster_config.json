@@ -12,11 +12,23 @@
     "jsDomain3": ""
   },
   {
-    "alias": "Ike科技公众号测试号",
-    "appId": "wx1990729989327359",
-    "appSecret": "d4624c36b6795d1d99dcf0547af5443d",
-    "serverUrl": "http://www.tuling123.com/openapi/wechatapi?key=6c5d8a0e78adc891bdd728e086663382 ",
-    "encodingAESKey": "G5VISTYiUsFt9K6fIFyzbTyYqQUErohyD3FtfQJbS6o",
+    "alias": "葛武荣ikgwr订阅号",
+    "appId": "wx1abe2e8e156438d0",
+    "appSecret": "f05121d33636e786a70be8006b63b072",
+    "serverUrl": "",
+    "encodingAESKey": "",
+    "encryptType": 0,
+    "token": "test",
+    "jsDomain1": "",
+    "jsDomain2": "",
+    "jsDomain3": ""
+  },
+  {
+    "alias": "葛武荣ikgwr测试号",
+    "appId": "wxae99469d3e2236f0",
+    "appSecret": "2672d7f09965bc3f77f696a1deda29fc",
+    "serverUrl": "",
+    "encodingAESKey": "",
     "encryptType": 0,
     "token": "test",
     "jsDomain1": "",

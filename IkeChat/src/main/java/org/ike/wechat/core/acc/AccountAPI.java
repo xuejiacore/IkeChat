@@ -10,6 +10,7 @@ package org.ike.wechat.core.acc;
 import org.ike.wechat.core.AbstractApi;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.config.DefaultConfiguration;
+import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.InvalidateAPIException;
 import org.ike.wechat.exception.InvalidateParametersException;
 import org.ike.wechat.exception.UnverifiedParameterException;
@@ -17,6 +18,8 @@ import org.ike.wechat.parser.IParameterKey;
 import org.ike.wechat.parser.ParameterKey;
 import org.ike.wechat.parser.Parameters;
 import org.ike.wechat.parser.Response;
+
+import java.io.IOException;
 
 /**
  * Class Name: AccountAPI
@@ -64,27 +67,31 @@ public class AccountAPI extends AbstractApi {
             if (apiIs(IkeChat.API_AC_CREATE_QR)) {
                 String createType = parameters.get("action_name").getValue().toString();
                 if (createType.equals("QR_SCENE")) {
-                    return new Response(httpsJsonPostReq(String.format(CGI_CREATE_SCENE_QR, IkeChat.getAuthorInfo().getAccessToken()), "" +
+                    return new Response(apiId,httpsJsonPostReq(String.format(CGI_CREATE_SCENE_QR, IkeChat.getAuthorInfo().getAccessToken()), "" +
                             "{\"expire_seconds\": " + parameters.getOrDef("expire_seconds", 30) + ", \"action_name\": \"" +
                             createType + "\", \"action_info\": {\"scene\": {\"scene_id\": " +
                             parameters.get("scene_id").getValue() + "}}}"));
                 } else {
-                    return new Response(httpsJsonPostReq(String.format(CGI_CREATE_SCENE_QR, IkeChat.getAuthorInfo().getAccessToken()), "" +
+                    return new Response(apiId,httpsJsonPostReq(String.format(CGI_CREATE_SCENE_QR, IkeChat.getAuthorInfo().getAccessToken()), "" +
                             "{\"expire_seconds\": " + parameters.getOrDef("expire_seconds", 30) + ", \"action_name\": \"" +
                             createType + "\", \"action_info\": {\"scene\": {\"scene_id\": " +
                             parameters.get("scene_id").getValue() + ",\"scene_str\":\"" + parameters.get("scene_str").getValue() + "\"}}}"));
                 }
             } else if (apiIs(IkeChat.API_LURL_2_SURL)) {
-                return new Response(httpsJsonPostReq(String.format(CGI_LURL_2_SURL, IkeChat.getAuthorInfo().getAccessToken()),
+                return new Response(apiId,httpsJsonPostReq(String.format(CGI_LURL_2_SURL, IkeChat.getAuthorInfo().getAccessToken()),
                         "{\"action\":\"long2short\",\"long_url\":\"" + parameters.get("long_url").getValue() + "\""));
             }
         } catch (UnverifiedParameterException e) {
+            e.printStackTrace();
+        } catch (ChatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static void main(String[] args) throws InvalidateParametersException, InvalidateAPIException {
+    public static void main(String[] args) throws ChatException, IOException {
         IkeChat.loadConfiguration(new DefaultConfiguration());
 
 //        IkeChat.req(IkeChat.API_REFRESH_TOKEN, IkeChat.PARAM_RELEASE_LOCKER);

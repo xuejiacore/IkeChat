@@ -17,51 +17,29 @@ package org.ike.wechat.core.auth;
  * Description: 授权信息
  */
 public class AuthorInfo {
-    /**
-     * 公众号的appId
-     */
-    private String appid = null;
-    /**
-     * 公众号的secretKey
-     */
-    private String secretKey = null;
-    /**
-     * 基础Access Token
-     */
-    private String ACCESS_TOKEN = null;
-    /**
-     * 基础Access Token 的有效时长
-     */
-    private int ACCESS_TOKEN_EXPIRE_IN = 0;
-    /**
-     * JS API调用ticket
-     */
-    private String JS_TICKET = null;
-    /**
-     * JS API调用ticket的有效时长
-     */
-    private int JS_TICKET_EXPIRE_IN = 0;
-    /**
-     * web access token
-     */
-    private String WEB_ACCESS_TOKEN = null;
-    /**
-     * web access token 的有效时长
-     */
-    private int WEB_ACCESS_TOKEN_EXPIRE_IN = 0;
+    private String alias = null;                                    // 公众号的别名
 
-    /**
-     * access token 有效状态
-     */
-    private boolean isAccessTokenEffective = true;
-    /**
-     * js ticket 的有效状态
-     */
-    private boolean isJsTicketEffective = true;
-    /**
-     * web token的有效状态
-     */
-    private boolean isWebTokenEffective = true;
+    private String appid = null;                                    // 公众号的appId
+    private String secretKey = null;                                // 公众号的secretKey
+
+    private String ACCESS_TOKEN = null;                             // 基础Access Token
+    private int ACCESS_TOKEN_EXPIRE_IN = 0;                         // 基础Access Token 的有效时长
+    private String JS_TICKET = null;                                // JS API调用ticket
+    private int JS_TICKET_EXPIRE_IN = 0;                            // JS API调用ticket的有效时长
+    private String WEB_ACCESS_TOKEN = null;                         // web access token
+    private int WEB_ACCESS_TOKEN_EXPIRE_IN = 0;                     // web access token 的有效时长
+
+    private boolean isAccessTokenEffective = true;                  // access token 有效状态
+    private boolean isJsTicketEffective = true;                     // js ticket 的有效状态
+    private boolean isWebTokenEffective = true;                     // web token的有效状态
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
     public String getAppid() {
         return appid;
@@ -166,5 +144,9 @@ public class AuthorInfo {
                 ", isJsTicketEffective=" + isJsTicketEffective +
                 ", isWebTokenEffective=" + isWebTokenEffective +
                 '}';
+    }
+
+    public String getCoreInfo() {
+        return "\nAlias:" + alias + "\nAPPID:" + appid + "\nACCESS_TOKEN:" + ACCESS_TOKEN + "\nACCESS_TOKEN_EXPIRE_IN:" + ACCESS_TOKEN_EXPIRE_IN;
     }
 }

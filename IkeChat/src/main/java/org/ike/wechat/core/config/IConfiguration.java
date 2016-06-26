@@ -8,6 +8,7 @@
 package org.ike.wechat.core.config;
 
 import org.ike.wechat.core.auth.AuthorInfo;
+import org.ike.wechat.log.IResponseListener;
 
 /**
  * Class Name: IConfiguration
@@ -33,4 +34,11 @@ public interface IConfiguration {
      * @return 凭证信息
      */
     AuthorInfo getAuthorInfo();
+
+    /**
+     * 获取调用结果回调
+     *
+     * @return 返回响应回调接口
+     */
+    IResponseListener getResponseListener();
 }

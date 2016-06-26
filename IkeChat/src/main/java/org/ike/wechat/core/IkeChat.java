@@ -14,7 +14,9 @@ import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.core.base.BaseAPI;
 import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.core.config.IConfiguration;
+import org.ike.wechat.core.menu.MenuAPI;
 import org.ike.wechat.core.user.UserAPI;
+import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.InvalidateAPIException;
 import org.ike.wechat.exception.InvalidateParametersException;
 import org.ike.wechat.parser.ParameterKey;
@@ -22,6 +24,7 @@ import org.ike.wechat.parser.ParameterValue;
 import org.ike.wechat.parser.Parameters;
 import org.ike.wechat.parser.Response;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -125,6 +128,10 @@ public class IkeChat {
     // 推广支持
     // 界面丰富
     // 素材管理
+    // 菜单管理
+    public static final int API_MU_CREATE_MENU = API_MENU | 0x01;                                    // 创建菜单
+    public static final int API_MU_QUERY_MENU = API_MENU | 0x02;                                    // 查询菜单
+    public static final int API_MU_DELETE_MENU = API_MENU | 0x03;                                   // 删除菜单
     // 账号管理
     public static final int API_AC_CREATE_QR = API_ACCOUNT | 0x01;                                  // 创建带场景值二维码
     public static final int API_LURL_2_SURL = API_ACCOUNT | 0x02;                                   // 长地址转短地址
@@ -155,7 +162,7 @@ public class IkeChat {
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);
         IkeChat.apiMapper.put(API_USERS, UserAPI.class);
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);
-        IkeChat.apiMapper.put(API_MENU, TestAPI.class);
+        IkeChat.apiMapper.put(API_MENU, MenuAPI.class);
         IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);
         IkeChat.apiMapper.put(API_WEB, TestAPI.class);
         IkeChat.apiMapper.put(API_MATERIAL, TestAPI.class);
@@ -231,8 +238,13 @@ public class IkeChat {
      * @return 返回响应的结果
      * @throws InvalidateParametersException
      */
-    public static Response req(int apiId, Object[]... params) throws InvalidateParametersException, InvalidateAPIException {
-        Class<? extends IAPI> apiClz = IkeChat.obtainApiClz(apiId);
+    public static Response req(int apiId, Object[]... params) throws IOException, ChatException {
+        Class<? extends IAPI> apiClz;
+        try {
+            apiClz = IkeChat.obtainApiClz(apiId);
+        } catch (InvalidateAPIException e) {
+            return new Response(-99, null);
+        }
         try {
             IAPI api = apiClz.newInstance();
             Parameters args = prepareArguments(apiId, api, params);
@@ -241,8 +253,10 @@ public class IkeChat {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (InvalidateParametersException e) {
+            e.printStackTrace();
         }
-        return new Response(null);
+        return new Response(-99, null);
     }
 
     /**
@@ -302,7 +316,11 @@ public class IkeChat {
         return configuration.getAuthorInfo();
     }
 
-    public static void main(String[] args) throws InvalidateParametersException, InvalidateAPIException {
+    public static IConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public static void main(String[] args) throws ChatException, IOException {
         IkeChat.loadConfiguration(new DefaultConfiguration());
         System.err.println(IkeChat.req(IkeChat.API_REFRESH_TOKEN, new Object[][]{PARAM_RELEASE_LOCKER}));
 

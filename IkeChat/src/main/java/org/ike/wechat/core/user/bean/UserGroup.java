@@ -1,11 +1,11 @@
 /**
  * Project: IkeChat
- * Package Name: org.ike.wechat.core.user.domain
+ * Package Name: org.ike.wechat.core.user.bean
  * Author: Xuejia
  * Date Time: 2016/6/22 13:24
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.user.domain;
+package org.ike.wechat.core.user.bean;
 
 /**
  * Class Name: UserGroup

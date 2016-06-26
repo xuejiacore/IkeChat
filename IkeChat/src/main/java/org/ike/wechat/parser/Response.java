@@ -7,9 +7,14 @@
  **/
 package org.ike.wechat.parser;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import org.ike.wechat.core.IkeChat;
+import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.UnknownResponseException;
+import org.ike.wechat.exception.WeChatErr;
+import org.ike.wechat.log.IResponseListener;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,10 +34,36 @@ public class Response {
     /**
      * 初始化响应
      *
-     * @param data 响应的原始数据
+     * @param apiId 调用的apiId
+     * @param data  响应的原始数据
      */
-    public Response(String data) {
+    public Response(int apiId, String data) throws IOException, ChatException {
         this.jsonResult = data;
+        IResponseListener responseListener = IkeChat.getConfiguration().getResponseListener();
+        if (this.jsonResult.contains("errcode")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(data);
+            int errorCode = 0;
+
+            if ((errorCode = jsonNode.get("errcode").asInt()) != 0) {
+                String errorMsg;
+                errorMsg = WeChatErr.getError(errorCode);
+
+                if (responseListener != null) {
+                    responseListener.onFailure(apiId, errorMsg, IkeChat.getAuthorInfo());
+                }
+                throw new ChatException(errorMsg);
+            } else {
+                if (responseListener != null) {
+                    responseListener.onSuccess(apiId, "Successful!", IkeChat.getAuthorInfo());
+                }
+            }
+        } else {
+            if (responseListener != null) {
+                responseListener.onFailure(apiId, "Unknown Response Exception", IkeChat.getAuthorInfo());
+            }
+            throw new UnknownResponseException("Unknown Response Exception");
+        }
     }
 
     /**
