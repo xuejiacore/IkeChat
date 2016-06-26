@@ -33,9 +33,11 @@ import java.io.IOException;
  */
 public class MenuAPI extends AbstractApi {
 
+
     private static final String CGI_CREATE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s";      // 创建菜单
     private static final String CGI_QUERY_MENU = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=%s";          // 查询菜单
     private static final String CGI_DELETE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=%s";      // 删除菜单
+    private static final String CGI_QUERY_SELF_MENU = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=%s"; // 查询自定义菜单配置
 
     public IParameterKey[] getNecessaryParams(int apiId) {
         try {
@@ -55,12 +57,14 @@ public class MenuAPI extends AbstractApi {
     public Response req(int apiId, Parameters parameters) {
         try {
             if (apiIs(IkeChat.API_MU_CREATE_MENU)) {
-                return new Response(apiId,httpsJsonPostReq(String.format(CGI_CREATE_MENU, IkeChat.getAuthorInfo().getAccessToken()),
+                return new Response(apiId, httpsJsonPostReq(String.format(CGI_CREATE_MENU, IkeChat.getAuthorInfo().getAccessToken()),
                         new Gson().toJson(parameters.get("menu").getValue())));
             } else if (apiIs(IkeChat.API_MU_QUERY_MENU)) {
-                return new Response(apiId,httpsPostReq(String.format(CGI_QUERY_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                return new Response(apiId, httpsPostReq(String.format(CGI_QUERY_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
             } else if (apiIs(IkeChat.API_MU_DELETE_MENU)) {
-                return new Response(apiId,httpsPostReq(String.format(CGI_DELETE_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                return new Response(apiId, httpsPostReq(String.format(CGI_DELETE_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+            } else if (apiIs(IkeChat.API_MU_QUERY_SELF_MENU)) {
+                return new Response(apiId, httpsPostReq(String.format(CGI_QUERY_SELF_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
             }
         } catch (UnverifiedParameterException e) {
             e.printStackTrace();
@@ -99,6 +103,7 @@ public class MenuAPI extends AbstractApi {
         menu.getButton().add(main3);
 //        System.err.println(IkeChat.req(IkeChat.API_MU_CREATE_MENU, new Object[][]{{"menu", menu}}));
 //        System.err.println(IkeChat.req(IkeChat.API_MU_QUERY_MENU, IkeChat.PARAM_EMPTY).toClz(MenuInfo.class));
-        System.err.println(IkeChat.req(IkeChat.API_MU_DELETE_MENU, IkeChat.PARAM_EMPTY));
+//        System.err.println(IkeChat.req(IkeChat.API_MU_DELETE_MENU, IkeChat.PARAM_EMPTY));
+//        System.err.println(IkeChat.req(IkeChat.API_MU_QUERY_SELF_MENU, IkeChat.PARAM_EMPTY).toClz(CustomsMenuInfo.class));
     }
 }

@@ -40,12 +40,12 @@ public class Response {
     public Response(int apiId, String data) throws IOException, ChatException {
         this.jsonResult = data;
         IResponseListener responseListener = IkeChat.getConfiguration().getResponseListener();
-        if (this.jsonResult.contains("errcode")) {
+        if (this.jsonResult.startsWith("{") || this.jsonResult.startsWith("[")) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(data);
-            int errorCode = 0;
+            int errorCode;
 
-            if ((errorCode = jsonNode.get("errcode").asInt()) != 0) {
+            if (this.jsonResult.contains("errcode") && (errorCode = jsonNode.get("errcode").asInt()) != 0) {
                 String errorMsg;
                 errorMsg = WeChatErr.getError(errorCode);
 

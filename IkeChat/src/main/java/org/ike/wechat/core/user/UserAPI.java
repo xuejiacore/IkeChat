@@ -206,7 +206,7 @@ public class UserAPI extends AbstractApi {
 //                new String[]{"oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk", "oAm5Vt9rxcMzf-UZBHtyNq994qhg"}}, {"tagid", "102"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UT_FETCH_USER_TAGS, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UR_SET_USER_REMARK, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"remark", "测试备注"}}));
-        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_INFO, new Object[][]{{"openid", "oAm5Vt_Cz1AdnFZ4SHGTwZZPxVdYk"}, {"lang", "zh_CN"}}));
+        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_INFO, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"lang", "zh_CN"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_LIST, IkeChat.PARAM_EMPTY));
 
     }

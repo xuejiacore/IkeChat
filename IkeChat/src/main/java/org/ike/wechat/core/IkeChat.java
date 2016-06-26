@@ -129,9 +129,10 @@ public class IkeChat {
     // 界面丰富
     // 素材管理
     // 菜单管理
-    public static final int API_MU_CREATE_MENU = API_MENU | 0x01;                                    // 创建菜单
+    public static final int API_MU_CREATE_MENU = API_MENU | 0x01;                                   // 创建菜单
     public static final int API_MU_QUERY_MENU = API_MENU | 0x02;                                    // 查询菜单
     public static final int API_MU_DELETE_MENU = API_MENU | 0x03;                                   // 删除菜单
+    public static final int API_MU_QUERY_SELF_MENU = API_MENU | 0x04;                               // 查询自定义菜单
     // 账号管理
     public static final int API_AC_CREATE_QR = API_ACCOUNT | 0x01;                                  // 创建带场景值二维码
     public static final int API_LURL_2_SURL = API_ACCOUNT | 0x02;                                   // 长地址转短地址

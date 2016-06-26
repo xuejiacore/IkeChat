@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class Name: Button
+ * Class Name: SelfButton
  * Create Date: 2016/6/26 15:18
  * Creator: Xuejia
  * Version: v1.0
@@ -52,37 +52,27 @@ public class Button {
     }
 
     public Button(String type, String name) {
-        this.type = type;
+        this(type);
         this.name = name;
     }
 
     public Button(String type, String name, String key) {
-        this.type = type;
-        this.name = name;
+        this(type, name);
         this.key = key;
     }
 
     public Button(String type, String name, String key, String url) {
-        this.type = type;
-        this.name = name;
-        this.key = key;
+        this(type, name, key);
         this.url = url;
     }
 
     public Button(String type, String name, String key, String url, String media_id) {
-        this.type = type;
-        this.name = name;
-        this.key = key;
-        this.url = url;
+        this(type, name, key, url);
         this.media_id = media_id;
     }
 
     public Button(String type, String name, String key, String url, String media_id, List<Button> sub_button) {
-        this.type = type;
-        this.name = name;
-        this.key = key;
-        this.url = url;
-        this.media_id = media_id;
+        this(type, name, key, url, media_id);
         this.sub_button = sub_button;
     }
 
@@ -136,7 +126,7 @@ public class Button {
 
     @Override
     public String toString() {
-        return "Button{" +
+        return "SelfButton{" +
                 "type='" + type + '\'' +
                 ", name='" + name + '\'' +
                 ", key='" + key + '\'' +

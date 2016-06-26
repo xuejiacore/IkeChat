@@ -7,6 +7,8 @@
  **/
 package org.ike.wechat.core.menu.bean.selfmenu;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -16,8 +18,21 @@ import java.util.List;
  * Version: v1.0
  * Updater:
  * Date Time:
- * Description:
+ * Description: 菜单接口中的图文列表
  */
 public class NewsInfo {
-    private List<News> list;
+    private List<News> list;    // 图文列表
+
+    public List<News> getList() {
+        return list;
+    }
+
+    public void setList(List<News> list) {
+        this.list = list;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

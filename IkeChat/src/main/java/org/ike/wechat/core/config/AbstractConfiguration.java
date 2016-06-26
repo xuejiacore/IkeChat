@@ -29,8 +29,6 @@ public abstract class AbstractConfiguration implements IConfiguration {
     // 授权的缓存接口
     private static ICache storageProcessor = null;
 
-    private static IResponseListener responseListener = null;
-
     // 授权信息
     protected static AuthorInfo authorInfo = new AuthorInfo();
 
@@ -39,7 +37,6 @@ public abstract class AbstractConfiguration implements IConfiguration {
      */
     public AbstractConfiguration() {
         storageProcessor = initStorageProcessor();
-        responseListener = getResponseListener();
         if (storageProcessor != null) {
             authorInfo = storageProcessor.onCacheLoading();
         }

@@ -46,12 +46,12 @@ public class DefaultConfiguration extends AbstractConfiguration {
     public IResponseListener getResponseListener() {
         return new IResponseListener() {
             public void onSuccess(int apiId, String msg, AuthorInfo authorInfo) {
-                System.out.println("----------------\n" + new Date() + " - Success!\napiId : " +
+                System.out.println("----------------\n" + new Date() + " - Success!\napiId :0b" +
                         Integer.toBinaryString(apiId) + "(" + apiId + ")\nmsg : " + msg + "\n" + authorInfo.getCoreInfo() + "\n----------------");
             }
 
             public void onFailure(int apiId, String msg, AuthorInfo authorInfo) {
-                System.out.println("----------------\n" + new Date() + " - Failure!\napiId : " +
+                System.out.println("----------------\n" + new Date() + " - Failure!\napiId :0b" +
                         Integer.toBinaryString(apiId) + "(" + apiId + ")\nmsg : " + msg + "\n" + authorInfo.getCoreInfo() + "\n----------------");
             }
         };
