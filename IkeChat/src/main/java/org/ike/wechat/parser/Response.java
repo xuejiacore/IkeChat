@@ -30,6 +30,7 @@ import java.util.HashMap;
  */
 public class Response {
     private String jsonResult = null;
+    private Object objectResult = null;
 
     /**
      * 初始化响应
@@ -66,6 +67,17 @@ public class Response {
         }
     }
 
+    public Response(int apiId, Object object) {
+        IResponseListener responseListener = IkeChat.getConfiguration().getResponseListener();
+        if (object != null && object.toString().length() > 0) {
+            this.objectResult = object;
+            responseListener.onSuccess(apiId, "Successful!", IkeChat.getAuthorInfo());
+        } else {
+            this.objectResult = new Object();
+            responseListener.onFailure(apiId, "Empty Response Exception", IkeChat.getAuthorInfo());
+        }
+    }
+
     /**
      * 将结果转化为对应的对象
      *
@@ -91,8 +103,12 @@ public class Response {
         return map;
     }
 
+    public Object getObjectResult() {
+        return this.objectResult;
+    }
+
     @Override
     public String toString() {
-        return this.jsonResult;
+        return this.objectResult == null ? this.jsonResult : this.objectResult.toString();
     }
 }

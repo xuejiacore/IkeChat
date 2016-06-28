@@ -122,6 +122,7 @@ public class WeChatErr {
         ERRORS.put(46004, "不存在的用户");
         ERRORS.put(47001, "解析JSON/XML内容错误");
         ERRORS.put(48001, "api功能未授权，请确认公众号已获得该接口，可以在公众平台官网-开发者中心页中查看接口权限");
+        ERRORS.put(48006, "由于达到清零次数上限而拒绝清除!");
         ERRORS.put(49003, "传入的openid不属于此AppID");
         ERRORS.put(50001, "用户未授权该api");
         ERRORS.put(50002, "用户受限，可能是违规后接口被封禁");

@@ -14,6 +14,7 @@ import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.core.base.BaseAPI;
 import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.core.config.IConfiguration;
+import org.ike.wechat.core.material.MaterialAPI;
 import org.ike.wechat.core.menu.MenuAPI;
 import org.ike.wechat.core.user.UserAPI;
 import org.ike.wechat.exception.ChatException;
@@ -89,6 +90,7 @@ public class IkeChat {
      * DOCUMENT：http://mp.weixin.qq.com/wiki/4/41ef0843d6e108cf6b5649480207561c.html
      */
     public static final int API_LIST_SERVER_IPS = API_BASE | 0x02;
+    public static final int API_CLEAR_QUOTA = API_BASE | 0x03;
 
     // 接收消息
     // 发送消息
@@ -128,6 +130,17 @@ public class IkeChat {
     // 推广支持
     // 界面丰富
     // 素材管理
+    public static final int API_MA_UPLOAD_TMP_MEDIA = API_MATERIAL | 0x01;                          // 上传临时素材
+    public static final int API_MA_OBTAIN_TMP_MATERIAL_LIST = API_MATERIAL | 0x02;                  // 获得临时文件列表
+    public static final int API_MA_CREATE_LIMIT_ARTICLES = API_MATERIAL | 0x03;                     // 新增永久图文
+    public static final int API_MA_UPLOAD_LIMIT_MATERIAL = API_MATERIAL | 0x04;                     // 上传永久素材
+    public static final int API_MA_UPLOAD_LIMIT_OTHER_MATERIAL = API_MATERIAL | 0x05;               // 上传其他类型的永久素材
+    public static final int API_MA_OBTAIN_LIMIT_MATERIAL = API_MATERIAL | 0x06;                     // 获得永久素材ID
+    public static final int API_MA_DELETE_LIMIT_MATERIAL = API_MATERIAL | 0x07;                     // 删除永久素材
+    public static final int API_MA_MODIFY_LIMIT_MATERIAL = API_MATERIAL | 0x08;                     // 修改永久图文素材
+    public static final int API_MA_CALCULATE_MATERIAL_CNT = API_MATERIAL | 0x09;                    // 查询素材总数
+    public static final int API_MA_QUERY_MATERIAL_LIST = API_MATERIAL | 0x10;                       // 查询素材列表
+
     // 菜单管理
     public static final int API_MU_CREATE_MENU = API_MENU | 0x01;                                   // 创建菜单
     public static final int API_MU_QUERY_MENU = API_MENU | 0x02;                                    // 查询菜单
@@ -166,7 +179,7 @@ public class IkeChat {
         IkeChat.apiMapper.put(API_MENU, MenuAPI.class);
         IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);
         IkeChat.apiMapper.put(API_WEB, TestAPI.class);
-        IkeChat.apiMapper.put(API_MATERIAL, TestAPI.class);
+        IkeChat.apiMapper.put(API_MATERIAL, MaterialAPI.class);
         IkeChat.apiMapper.put(API_ACCOUNT, AccountAPI.class);
         IkeChat.apiMapper.put(API_DATA, TestAPI.class);
         IkeChat.apiMapper.put(API_COUPONS, TestAPI.class);

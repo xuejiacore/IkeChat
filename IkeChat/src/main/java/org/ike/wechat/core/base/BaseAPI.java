@@ -29,11 +29,15 @@ import java.util.Map;
  * Description: 对话服务-基础支持接口
  * <p/>
  * 基础支持借口包含了刷新公众号的access token 以及获取公众号的服务器IP地址接口
+ * <p/>
+ * 每个帐号每月共10次清零操作机会，清零生效一次即用掉一次机会（10次包括了平台上的清零和调用接口API的清零）
  */
 public class BaseAPI extends AbstractApi {
 
     private static final String CGI_REFRESH_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";// 刷新access token cgi
     private static final String CGI_SERVER_IPS = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s";                           // 获取服务器的ip列表
+    // 每个帐号每月共10次清零操作机会，清零生效一次即用掉一次机会（10次包括了平台上的清零和调用接口API的清零）
+    private static final String CGI_CLEAR_QUOTA = "https://api.weixin.qq.com/cgi-bin/clear_quota?access_token=%s";                            // 对接口调用次数清零
 
     public IParameterKey[] getNecessaryParams(int apiId) {
         try {
@@ -45,7 +49,7 @@ public class BaseAPI extends AbstractApi {
         } catch (UnverifiedParameterException e) {
             e.printStackTrace();
         }
-        return null;
+        return new IParameterKey[0];
     }
 
     public IParameterKey[] getOptionalParams(int apiId) {
@@ -60,13 +64,24 @@ public class BaseAPI extends AbstractApi {
                 } else {
                     throw new DeniedOperationException("拒绝不安全的操作操作!");
                 }
-                Response response = new Response(apiId,httpsPostReq(String.format(CGI_REFRESH_TOKEN, IkeChat.getAuthorInfo().getAppid(), IkeChat.getAuthorInfo().getSecretKey()), parameters));
+                Response response = new Response(apiId, httpsPostReq(String.format(CGI_REFRESH_TOKEN, IkeChat.getAuthorInfo().getAppid(), IkeChat.getAuthorInfo().getSecretKey()), parameters));
                 Map resultMap = response.toMap();
                 IkeChat.getAuthorInfo().setAccessToken((String) resultMap.get("access_token"));
                 IkeChat.getAuthorInfo().setAccessTokenExpireIn((Integer) resultMap.get("expires_in"));
                 return response;
+
             } else if (apiIs(IkeChat.API_LIST_SERVER_IPS)) {
-                return new Response(apiId,httpsGetReq(String.format(CGI_SERVER_IPS, IkeChat.getAuthorInfo().getAccessToken()), null));
+                return new Response(apiId, httpsGetReq(String.format(CGI_SERVER_IPS, IkeChat.getAuthorInfo().getAccessToken()), null));
+
+            } else if (apiIs(IkeChat.API_CLEAR_QUOTA)) {
+                if (parameters != null && parameters.size() != 0 && (Boolean) (parameters.get("_release_lock").getValue())) {
+                    IkeChat.releaseLocker();
+                } else {
+                    throw new DeniedOperationException("拒绝不安全的操作操作!");
+                }
+                return new Response(apiId, httpsJsonPostReq(String.format(CGI_CLEAR_QUOTA, IkeChat.getAuthorInfo().getAccessToken()),
+                        "{\"appid\":\"" + IkeChat.getAuthorInfo().getAppid() + "\"}"));
+
             }
         } catch (UnverifiedParameterException unverifiedParameter) {
             unverifiedParameter.printStackTrace();
