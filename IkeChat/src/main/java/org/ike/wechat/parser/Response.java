@@ -32,13 +32,7 @@ public class Response {
     private String jsonResult = null;
     private Object objectResult = null;
 
-    /**
-     * 初始化响应
-     *
-     * @param apiId 调用的apiId
-     * @param data  响应的原始数据
-     */
-    public Response(int apiId, String data) throws IOException, ChatException {
+    public Response(int apiId, String data, boolean ignoreChk) throws IOException, ChatException {
         this.jsonResult = data;
         IResponseListener responseListener = IkeChat.getConfiguration().getResponseListener();
         if (this.jsonResult.startsWith("{") || this.jsonResult.startsWith("[")) {
@@ -59,12 +53,26 @@ public class Response {
                     responseListener.onSuccess(apiId, "Successful!", IkeChat.getAuthorInfo());
                 }
             }
-        } else {
+        } else if (!ignoreChk) {
             if (responseListener != null) {
                 responseListener.onFailure(apiId, "Unknown Response Exception", IkeChat.getAuthorInfo());
             }
             throw new UnknownResponseException("Unknown Response Exception");
+        } else {
+            if (responseListener != null) {
+                responseListener.onSuccess(apiId, "Successful!", IkeChat.getAuthorInfo());
+            }
         }
+    }
+
+    /**
+     * 初始化响应
+     *
+     * @param apiId 调用的apiId
+     * @param data  响应的原始数据
+     */
+    public Response(int apiId, String data) throws IOException, ChatException {
+        this(apiId, data, false);
     }
 
     public Response(int apiId, Object object) {

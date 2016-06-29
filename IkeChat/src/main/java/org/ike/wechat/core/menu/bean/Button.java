@@ -47,8 +47,8 @@ public class Button {
         this.sub_button = new ArrayList<Button>();
     }
 
-    public Button(String name) {
-        this.name = name;
+    public Button(String type) {
+        this.type = type;
     }
 
     public Button(String type, String name) {

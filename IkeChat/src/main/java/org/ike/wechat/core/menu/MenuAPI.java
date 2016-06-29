@@ -13,12 +13,11 @@ import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.core.menu.bean.Button;
 import org.ike.wechat.core.menu.bean.Menu;
+import org.ike.wechat.core.menu.bean.MenuInfo;
+import org.ike.wechat.core.menu.bean.selfmenu.CustomsMenuInfo;
 import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.UnverifiedParameterException;
-import org.ike.wechat.parser.IParameterKey;
-import org.ike.wechat.parser.ParameterKey;
-import org.ike.wechat.parser.Parameters;
-import org.ike.wechat.parser.Response;
+import org.ike.wechat.parser.*;
 
 import java.io.IOException;
 
@@ -35,9 +34,9 @@ public class MenuAPI extends AbstractApi {
 
 
     private static final String CGI_CREATE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s";      // 创建菜单
-    private static final String CGI_QUERY_MENU = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=%s";          // 查询菜单
-    private static final String CGI_DELETE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=%s";      // 删除菜单
-    private static final String CGI_QUERY_SELF_MENU = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=%s"; // 查询自定义菜单配置
+    private static final String CGI_QUERY_MENU = "https://api.weixin.qq.com/cgi-bin/menu/get";                          // 查询菜单
+    private static final String CGI_DELETE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/delete";                      // 删除菜单
+    private static final String CGI_QUERY_SELF_MENU = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info";    // 查询自定义菜单配置
 
     public IParameterKey[] getNecessaryParams(int apiId) {
         try {
@@ -56,15 +55,16 @@ public class MenuAPI extends AbstractApi {
 
     public Response req(int apiId, Parameters parameters) {
         try {
+            parameters.put(new ParameterKey("access_token"), new ParameterValue(IkeChat.getAuthorInfo().getAccessToken()));
             if (apiIs(IkeChat.API_MU_CREATE_MENU)) {
                 return new Response(apiId, httpsJsonPostReq(String.format(CGI_CREATE_MENU, IkeChat.getAuthorInfo().getAccessToken()),
                         new Gson().toJson(parameters.get("menu").getValue())));
             } else if (apiIs(IkeChat.API_MU_QUERY_MENU)) {
-                return new Response(apiId, httpsPostReq(String.format(CGI_QUERY_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                return new Response(apiId, httpsPostReq(CGI_QUERY_MENU, parameters));
             } else if (apiIs(IkeChat.API_MU_DELETE_MENU)) {
-                return new Response(apiId, httpsPostReq(String.format(CGI_DELETE_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                return new Response(apiId, httpsPostReq(CGI_DELETE_MENU, parameters));
             } else if (apiIs(IkeChat.API_MU_QUERY_SELF_MENU)) {
-                return new Response(apiId, httpsPostReq(String.format(CGI_QUERY_SELF_MENU, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                return new Response(apiId, httpsPostReq((CGI_QUERY_SELF_MENU), parameters));
             }
         } catch (UnverifiedParameterException e) {
             e.printStackTrace();
@@ -82,9 +82,9 @@ public class MenuAPI extends AbstractApi {
 //        IkeChat.req(IkeChat.API_REFRESH_TOKEN, IkeChat.PARAM_RELEASE_LOCKER);
 
         Menu menu = new Menu();
-        Button main1 = new Button("主菜单改");
-        Button main2 = new Button("主菜单2");
-        Button main3 = new Button("click", "主菜单3", "key0");
+        Button main1 = new Button("click", "主菜单改", "key1");
+        Button main2 = new Button("click", "主菜单2", "key2");
+        Button main3 = new Button("click", "主菜单3", "key3");
 
         Button subBtn11 = new Button("click", "子菜单11", "key11");
         Button subBtn12 = new Button("click", "子菜单12", "key12");

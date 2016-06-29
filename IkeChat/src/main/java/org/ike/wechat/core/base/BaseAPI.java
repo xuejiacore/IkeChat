@@ -9,12 +9,11 @@ package org.ike.wechat.core.base;
 
 import org.ike.wechat.core.AbstractApi;
 import org.ike.wechat.core.IkeChat;
+import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.DeniedOperationException;
 import org.ike.wechat.exception.UnverifiedParameterException;
-import org.ike.wechat.parser.IParameterKey;
-import org.ike.wechat.parser.Parameters;
-import org.ike.wechat.parser.Response;
+import org.ike.wechat.parser.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -34,8 +33,8 @@ import java.util.Map;
  */
 public class BaseAPI extends AbstractApi {
 
-    private static final String CGI_REFRESH_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";// 刷新access token cgi
-    private static final String CGI_SERVER_IPS = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=%s";                           // 获取服务器的ip列表
+    private static final String CGI_REFRESH_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";                   // 刷新access token cgi
+    private static final String CGI_SERVER_IPS = "https://api.weixin.qq.com/cgi-bin/getcallbackip";                           // 获取服务器的ip列表
     // 每个帐号每月共10次清零操作机会，清零生效一次即用掉一次机会（10次包括了平台上的清零和调用接口API的清零）
     private static final String CGI_CLEAR_QUOTA = "https://api.weixin.qq.com/cgi-bin/clear_quota?access_token=%s";                            // 对接口调用次数清零
 
@@ -58,23 +57,26 @@ public class BaseAPI extends AbstractApi {
 
     public Response req(int apiId, Parameters parameters) {
         try {
+            parameters.put(new ParameterKey("access_token"), new ParameterValue(IkeChat.getAuthorInfo().getAccessToken()));
             if (apiIs(IkeChat.API_REFRESH_TOKEN)) {
-                if (parameters != null && parameters.size() != 0 && (Boolean) (parameters.get("_release_lock").getValue())) {
+                parameters.put(new ParameterKey("appid"), new ParameterValue(IkeChat.getAuthorInfo().getAppid()));
+                parameters.put(new ParameterKey("secret"), new ParameterValue(IkeChat.getAuthorInfo().getSecretKey()));
+                if (parameters.size() != 0 && (Boolean) (parameters.get("_release_lock").getValue())) {
                     IkeChat.releaseLocker();
                 } else {
                     throw new DeniedOperationException("拒绝不安全的操作操作!");
                 }
-                Response response = new Response(apiId, httpsPostReq(String.format(CGI_REFRESH_TOKEN, IkeChat.getAuthorInfo().getAppid(), IkeChat.getAuthorInfo().getSecretKey()), parameters));
+                Response response = new Response(apiId, httpsPostReq(CGI_REFRESH_TOKEN, parameters));
                 Map resultMap = response.toMap();
                 IkeChat.getAuthorInfo().setAccessToken((String) resultMap.get("access_token"));
                 IkeChat.getAuthorInfo().setAccessTokenExpireIn((Integer) resultMap.get("expires_in"));
                 return response;
 
             } else if (apiIs(IkeChat.API_LIST_SERVER_IPS)) {
-                return new Response(apiId, httpsGetReq(String.format(CGI_SERVER_IPS, IkeChat.getAuthorInfo().getAccessToken()), null));
+                return new Response(apiId, httpsPostReq(CGI_SERVER_IPS, parameters));
 
             } else if (apiIs(IkeChat.API_CLEAR_QUOTA)) {
-                if (parameters != null && parameters.size() != 0 && (Boolean) (parameters.get("_release_lock").getValue())) {
+                if (parameters.size() != 0 && (Boolean) (parameters.get("_release_lock").getValue())) {
                     IkeChat.releaseLocker();
                 } else {
                     throw new DeniedOperationException("拒绝不安全的操作操作!");

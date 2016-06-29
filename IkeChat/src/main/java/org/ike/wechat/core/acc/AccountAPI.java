@@ -14,15 +14,12 @@ import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.InvalidateAPIException;
 import org.ike.wechat.exception.InvalidateParametersException;
 import org.ike.wechat.exception.UnverifiedParameterException;
-import org.ike.wechat.parser.IParameterKey;
-import org.ike.wechat.parser.ParameterKey;
-import org.ike.wechat.parser.Parameters;
-import org.ike.wechat.parser.Response;
+import org.ike.wechat.parser.*;
 
 import java.io.IOException;
 
 /**
- * Class Name: AccountAPI
+ * Class Name: WebAPI
  * Create Date: 2016/6/24 22:19
  * Creator: Xuejia
  * Version: v1.0

@@ -17,6 +17,7 @@ import org.ike.wechat.core.config.IConfiguration;
 import org.ike.wechat.core.material.MaterialAPI;
 import org.ike.wechat.core.menu.MenuAPI;
 import org.ike.wechat.core.user.UserAPI;
+import org.ike.wechat.core.web.WebAPI;
 import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.InvalidateAPIException;
 import org.ike.wechat.exception.InvalidateParametersException;
@@ -40,18 +41,18 @@ import java.util.HashMap;
 public class IkeChat {
 
     private static IConfiguration configuration = null;                 // 配置
-    public static final Object[][] PARAM_EMPTY = new Object[0][0];     // 无参常量
+    public static final Object[][] PARAM_EMPTY = new Object[0][0];      // 无参常量
     public static final Object[] PARAM_RELEASE_LOCKER = {"_release_lock", true};    // 解锁参数
-    private static boolean locked = true;                         // 安全锁，防止危险的操作
-
+    private static boolean locked = true;                               // 安全锁，防止危险的操作
     public static final String LOGGER_NAME = "_1keCh@t";                // api接口日志名
-    public static final int API_USERS = 0x100;                          // 用户接口
-    public static final int API_SERVER = 0x200;                         // 服务器接口
-    public static final int API_MENU = 0X400;                           // 菜单接口
+
+    public static final int API_USERS = 0x100;                          // @ Finished 用户接口
+    public static final int API_SERVER = 0x200;                         // @ Finished 服务器接口
+    public static final int API_MENU = 0X400;                           // @ Finished 菜单接口
     public static final int API_MESSAGE = 0X800;                        // 消息接口
-    public static final int API_WEB = 0X1000;                           // 网页接口
-    public static final int API_MATERIAL = 0X2000;                      // 素材管理接口
-    public static final int API_ACCOUNT = 0X4000;                       // 账号接口
+    public static final int API_WEB = 0X1000;                           // @ Developing 网页接口
+    public static final int API_MATERIAL = 0X2000;                      // @ Finished 素材管理接口
+    public static final int API_ACCOUNT = 0X4000;                       // @ Finished 账号接口
     public static final int API_DATA = 0X8000;                          // 数据统计
     public static final int API_COUPONS = 0X10000;                      // 卡券接口
     public static final int API_STORE = 0X20000;                        // 门店接口
@@ -64,46 +65,28 @@ public class IkeChat {
     public static final int API_16 = 0X1000000;
     public static final int API_17 = 0X2000000;
     public static final int API_18 = 0X4000000;
-    public static final int API_BASE = 0X8000000;                       // 基础接口
+    public static final int API_BASE = 0X8000000;                       // @ Finished 基础接口
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public static final String P_APP_ID = "appID";                       // AppId
+    public static final String P_APP_ID = "appID";                      // AppId
     public static final String P_SECRET = "appsecret";                  // AppSecret
-    public static final String P_SECRET_KEY_PATH = "secretPath";         // SecretKey Path
+    public static final String P_SECRET_KEY_PATH = "secretPath";        // SecretKey Path
     public static final String P_DISK_ENCRYPT = "diskEncrypt";          // diskEncrypt
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     static Logger logger = Logger.getLogger(IkeChat.LOGGER_NAME);
     private static HashMap<Integer, Class<? extends IAPI>> apiMapper = new HashMap<Integer, Class<? extends IAPI>>();
 
-    public static final String API_EXCHANGE_SCENCE_QR = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // ****** TODO：对话服务接口开始-->
     // 基础支持
-    /**
-     * 刷新基础access token，无参数，返回json
-     * DOCUMENT：http://mp.weixin.qq.com/wiki/14/9f9c82c1af308e3b14ba9b973f99a8ba.html
-     */
-    public static final int API_REFRESH_TOKEN = API_BASE | 0x01;
-    /**
-     * 获取服务器IP列表，无参数，返回json
-     * DOCUMENT：http://mp.weixin.qq.com/wiki/4/41ef0843d6e108cf6b5649480207561c.html
-     */
-    public static final int API_LIST_SERVER_IPS = API_BASE | 0x02;
-    public static final int API_CLEAR_QUOTA = API_BASE | 0x03;
-
+    public static final int API_REFRESH_TOKEN = API_BASE | 0x01;                                    // 刷新AccessToken
+    public static final int API_LIST_SERVER_IPS = API_BASE | 0x02;                                  // 列出服务器列表
+    public static final int API_CLEAR_QUOTA = API_BASE | 0x03;                                      // 清楚接口调用频次
+    public static final String API_EXCHANGE_SCENCE_QR = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s"; // 根据Ticket换取二维码
     // 接收消息
     // 发送消息
     // 用户管理
-    /**
-     * 为公众号创建分组，POST json 请求，参数name，分组的名称，返回分组id以及分组名称
-     * 分组管理
-     * DOCUMENT：http://mp.weixin.qq.com/wiki/0/56d992c605a97245eb7e617854b169fc.html
-     * 标签管理
-     * DOCUMENT：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140837&token=&lang=zh_CN
-     * 用户基本信息
-     * DOCUMENT：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140839&token=&lang=zh_CN
-     */
     // -->> 用户分组管理
     public static final int API_UG_CREATE_USER_GROUP = API_USERS | 0x01;                           // 创建用户分组
     public static final int API_UG_QUERY_USER_GROUPS = API_USERS | 0x02;                           // 查询分组列表
@@ -126,7 +109,6 @@ public class IkeChat {
     // -->> 用户信息
     public static final int API_UI_FETCH_USER_INFO = API_USERS | 0x20;                             // 获得用户的信息
     public static final int API_UI_FETCH_USER_LIST = API_USERS | 0x30;                             // 获取用户列表
-
     // 推广支持
     // 界面丰富
     // 素材管理
@@ -140,7 +122,6 @@ public class IkeChat {
     public static final int API_MA_MODIFY_LIMIT_MATERIAL = API_MATERIAL | 0x08;                     // 修改永久图文素材
     public static final int API_MA_CALCULATE_MATERIAL_CNT = API_MATERIAL | 0x09;                    // 查询素材总数
     public static final int API_MA_QUERY_MATERIAL_LIST = API_MATERIAL | 0x10;                       // 查询素材列表
-
     // 菜单管理
     public static final int API_MU_CREATE_MENU = API_MENU | 0x01;                                   // 创建菜单
     public static final int API_MU_QUERY_MENU = API_MENU | 0x02;                                    // 查询菜单
@@ -159,6 +140,12 @@ public class IkeChat {
 
     // ****** TODO：网页服务接口开始-->
     // 网页账号
+    public static final int API_WEB_GENERATE_REDIRECT = API_WEB | 0x01;                             // 产生重定向接口
+    public static final int API_WEB_EXCHANGE_TOKEN = API_WEB | 0x02;                                // 换取网页授权access_token，同时带有openId信息
+    public static final int API_WEB_REFRESH_TOKEN = API_WEB | 0x03;                                 // 刷新网页授权access_token
+    public static final int API_WEB_FETCH_USER_INFO = API_WEB | 0x04;                               // 获取用户的基本信息
+    public static final int API_WEB_CHECK_TOKEN = API_WEB | 0x05;                                   // 检查网页授权access_token是否有效
+
     // 基础接口
     // 分享接口
     // 图像接口
@@ -172,24 +159,24 @@ public class IkeChat {
 
 
     static {
-        IkeChat.apiMapper.put(API_USERS, TestAPI.class);
-        IkeChat.apiMapper.put(API_SERVER, TestAPI.class);
-        IkeChat.apiMapper.put(API_USERS, UserAPI.class);
-        IkeChat.apiMapper.put(API_SERVER, TestAPI.class);
-        IkeChat.apiMapper.put(API_MENU, MenuAPI.class);
-        IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);
-        IkeChat.apiMapper.put(API_WEB, TestAPI.class);
-        IkeChat.apiMapper.put(API_MATERIAL, MaterialAPI.class);
-        IkeChat.apiMapper.put(API_ACCOUNT, AccountAPI.class);
-        IkeChat.apiMapper.put(API_DATA, TestAPI.class);
-        IkeChat.apiMapper.put(API_COUPONS, TestAPI.class);
-        IkeChat.apiMapper.put(API_STORE, TestAPI.class);
-        IkeChat.apiMapper.put(API_DEVICE, TestAPI.class);
-        IkeChat.apiMapper.put(API_CUSTOMER_SERV, TestAPI.class);
-        IkeChat.apiMapper.put(API_SHAKING, TestAPI.class);
-        IkeChat.apiMapper.put(API_WIFI, TestAPI.class);
-        IkeChat.apiMapper.put(API_SCANNING, TestAPI.class);
-        IkeChat.apiMapper.put(API_BASE, BaseAPI.class);
+        IkeChat.apiMapper.put(API_USERS, TestAPI.class);                    // @ Developing
+        IkeChat.apiMapper.put(API_SERVER, TestAPI.class);                   // @ Developing
+        IkeChat.apiMapper.put(API_USERS, UserAPI.class);                                                // Developed
+        IkeChat.apiMapper.put(API_SERVER, TestAPI.class);                   // @ Developing
+        IkeChat.apiMapper.put(API_MENU, MenuAPI.class);                                                 // Developed
+        IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);                  // @ Developing
+        IkeChat.apiMapper.put(API_WEB, WebAPI.class);                      // @ Developing
+        IkeChat.apiMapper.put(API_MATERIAL, MaterialAPI.class);                                         // Developed
+        IkeChat.apiMapper.put(API_ACCOUNT, AccountAPI.class);                                           // Developed
+        IkeChat.apiMapper.put(API_DATA, TestAPI.class);                     // @ Developing
+        IkeChat.apiMapper.put(API_COUPONS, TestAPI.class);                  // @ Developing
+        IkeChat.apiMapper.put(API_STORE, TestAPI.class);                    // @ Developing
+        IkeChat.apiMapper.put(API_DEVICE, TestAPI.class);                   // @ Developing
+        IkeChat.apiMapper.put(API_CUSTOMER_SERV, TestAPI.class);            // @ Developing
+        IkeChat.apiMapper.put(API_SHAKING, TestAPI.class);                  // @ Developing
+        IkeChat.apiMapper.put(API_WIFI, TestAPI.class);                     // @ Developing
+        IkeChat.apiMapper.put(API_SCANNING, TestAPI.class);                 // @ Developing
+        IkeChat.apiMapper.put(API_BASE, BaseAPI.class);                                                 // Developed
     }
 
     public static synchronized void releaseLocker() {

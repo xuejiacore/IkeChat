@@ -17,10 +17,7 @@ import org.ike.wechat.core.material.bean.Article;
 import org.ike.wechat.core.material.bean.Articles;
 import org.ike.wechat.exception.ChatException;
 import org.ike.wechat.exception.UnverifiedParameterException;
-import org.ike.wechat.parser.IParameterKey;
-import org.ike.wechat.parser.ParameterKey;
-import org.ike.wechat.parser.Parameters;
-import org.ike.wechat.parser.Response;
+import org.ike.wechat.parser.*;
 import org.ike.wechat.utils.HttpFileUtils;
 
 import java.io.*;
@@ -52,7 +49,7 @@ public class MaterialAPI extends AbstractApi {
     private static final String CGI_OBTAIN_LIMIT_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=%s";      // 获得永久素材ID
     private static final String CGI_DELETE_LIMIT_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=%s";      // 删除永久素材
     private static final String CGI_MODIFY_LIMIT_MATERIAL = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token=%s";       // 修改永久图文素材
-    private static final String CGI_CALCULATE_MATERIAL_CNT = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=%s";// 获取素材总数
+    private static final String CGI_CALCULATE_MATERIAL_CNT = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount";                // 获取素材总数
     private static final String CGI_QUERY_MATERIAL_LIST = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=%s";   // 查询素材列表
 
     static {
@@ -140,7 +137,8 @@ public class MaterialAPI extends AbstractApi {
                         "{\"media_id\":\"" + parameters.get("media_id").getValue() + "\",\"index\":" + parameters.getOrDef("index", 0) + ",\"articles\":\"" + new Gson().toJson(parameters.get("articles")) + "\"}"));
 
             } else if (apiIs(IkeChat.API_MA_CALCULATE_MATERIAL_CNT)) {
-                return new Response(apiId, httpsPostReq(String.format(CGI_CALCULATE_MATERIAL_CNT, IkeChat.getAuthorInfo().getAccessToken()), parameters));
+                parameters.put(new ParameterKey("access_token"), new ParameterValue(IkeChat.getAuthorInfo().getAccessToken()));
+                return new Response(apiId, httpsPostReq(CGI_CALCULATE_MATERIAL_CNT, parameters));
 
             } else if (apiIs(IkeChat.API_MA_QUERY_MATERIAL_LIST)) {
                 return new Response(apiId, httpsJsonPostReq(String.format(CGI_QUERY_MATERIAL_LIST, IkeChat.getAuthorInfo().getAccessToken()),
