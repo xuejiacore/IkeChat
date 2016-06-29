@@ -132,14 +132,28 @@ public class IkeChat {
     public static final int API_AC_CREATE_QR = API_ACCOUNT | 0x01;                                  // 创建带场景值二维码
     public static final int API_LURL_2_SURL = API_ACCOUNT | 0x02;                                   // 长地址转短地址
     // 数据统计
+    // -->> 用户分析数据接口
     public static final int API_DA_USER_SUMMARY = API_DATA | 0x01;                                  // 获取用户的增减数据 [跨度7]
     public static final int API_DA_USER_CUMULATE = API_DATA | 0x02;                                 // 获取累计用户数据 [跨度7]
+    // -->> 图文分析数据接口
     public static final int API_DA_GET_ARTICLESUMMARY = API_DATA | 0x03;                            // 获取图文群发每日数据 [跨度1]
     public static final int API_DA_GET_ARTICLETOTAL = API_DATA | 0x04;                              // 获取图文群发总数据 [跨度1]
     public static final int API_DA_GET_USER_READ = API_DATA | 0x05;                                 // 获取图文统计数据 [跨度3]
     public static final int API_DA_GET_USER_READHOUR = API_DATA | 0x06;                             // 获取图文统计分时数据 [跨度1]
     public static final int API_DA_GET_USER_SHARE = API_DATA | 0x07;                                // 获取图文分享转发数据 [跨度7]
     public static final int API_DA_GET_USER_SHAREHOUR = API_DATA | 0x08;                            // 获取图文分享转发分时数据 [跨度1]
+    // -->> 消息分析数据接口
+    public static final Integer API_DA_GETUP_STREAM_MSG = API_DATA | 0x09;                          //  获取消息发送概况数据 [跨度7]
+    public static final Integer API_DA_GETUP_STREAM_MSG_HOUR = API_DATA | 0x0a;                     //  获取消息分送分时数据 [跨度1]
+    public static final Integer API_DA_GETUP_STREAM_MSG_WEEK = API_DATA | 0x0b;                     //  获取消息发送周数据 [跨度30]
+    public static final Integer API_DA_GETUP_STREAM_MSG_MONTH = API_DATA | 0x0c;                    //  获取消息发送月数据 [跨度30]
+    public static final Integer API_DA_GETUP_STREAM_MSG_DIST = API_DATA | 0x0d;                     //  获取消息发送分布数据 [跨度15]
+    public static final Integer API_DA_GETUP_STREAM_MSG_DIST_WEEK = API_DATA | 0x0e;                //  获取消息发送分布周数据 [跨度30]
+    public static final Integer API_DA_GETUP_STREAM_MSG_DIST_MONTH = API_DATA | 0x0f;               //  获取消息发送分布月数据 [跨度30]
+    // -->> 接口分析数据接口
+    public static final int API_DA_GET_INTERFACE_SUMMARY = API_DATA | 0x10;                         // 获取接口分析数据 [跨度30]
+    public static final int API_DA_GET_INTERFACE_SUMMARY_HOUR = API_DATA | 0x20;                    // 获取接口分析分时数据 [跨度1]
+
     // ****** 对话服务接口结束
 
     // ****** TODO：功能服务接口开始-->
