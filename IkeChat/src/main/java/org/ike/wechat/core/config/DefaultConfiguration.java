@@ -31,6 +31,7 @@ public class DefaultConfiguration extends AbstractConfiguration {
         AuthorInfo authorInfo = getAuthorInfo();
         authorInfo.setAppid(PropertiesUtil.getValue(IkeChat.P_APP_ID));
         authorInfo.setSecretKey(PropertiesUtil.getValue(IkeChat.P_SECRET));
+        authorInfo.setToken(PropertiesUtil.getValue(IkeChat.P_TOKEN));
         setAuthorInfo(authorInfo);
     }
 

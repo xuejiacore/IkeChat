@@ -186,9 +186,9 @@ public class UserAPI extends AbstractApi {
 
     public static void main(String[] args) throws ChatException, IOException {
         IkeChat.loadConfiguration(new DefaultConfiguration());
-//        IkeChat.req(IkeChat.API_REFRESH_TOKEN, IkeChat.PARAM_RELEASE_LOCKER);
+        IkeChat.req(IkeChat.API_REFRESH_TOKEN, IkeChat.PARAM_RELEASE_LOCKER);
 //
-        System.err.println(IkeChat.req(IkeChat.API_UG_QUERY_USER_GROUPS, IkeChat.PARAM_EMPTY));
+//        System.err.println(IkeChat.req(IkeChat.API_UG_QUERY_USER_GROUPS, IkeChat.PARAM_EMPTY));
 //        System.err.println(IkeChat.req(IkeChat.API_UG_QUERY_USER_GROUP_IN, new Object[][]{{"openid", "oAm5Vt9rxcMzf-UZBHtyNq994qhg"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UG_MODIFY_GROUP_NAME, new Object[][]{{"id", 103}, {"name", "修改的名称2"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UG_MOVE_USER_2_GROUP, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"to_groupid", 103}}));
@@ -204,7 +204,7 @@ public class UserAPI extends AbstractApi {
 //        System.err.println(IkeChat.req(IkeChat.API_UT_FETCH_USER_TAGS, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UR_SET_USER_REMARK, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"remark", "测试备注"}}));
 //        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_INFO, new Object[][]{{"openid", "oAm5Vt_CzAdnFZ4SHGTwZZPxVdYk"}, {"lang", "zh_CN"}}));
-//        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_LIST, IkeChat.PARAM_EMPTY));
+        System.err.println(IkeChat.req(IkeChat.API_UI_FETCH_USER_LIST, IkeChat.PARAM_EMPTY));
 
     }
 }

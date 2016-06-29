@@ -55,6 +55,7 @@ public class BaseAPI extends AbstractApi {
         return new IParameterKey[0];
     }
 
+    // TODO:这部分注意线程同步
     public Response req(int apiId, Parameters parameters) {
         try {
             parameters.put(new ParameterKey("access_token"), new ParameterValue(IkeChat.getAuthorInfo().getAccessToken()));

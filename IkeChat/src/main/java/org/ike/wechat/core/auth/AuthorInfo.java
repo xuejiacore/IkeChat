@@ -21,6 +21,7 @@ public class AuthorInfo {
 
     private String appid = null;                                    // 公众号的appId
     private String secretKey = null;                                // 公众号的secretKey
+    private String token = null;                                    // 公众号的token
 
     private String ACCESS_TOKEN = null;                             // 基础Access Token
     private int ACCESS_TOKEN_EXPIRE_IN = 0;                         // 基础Access Token 的有效时长
@@ -55,6 +56,14 @@ public class AuthorInfo {
 
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getAccessToken() {
@@ -132,8 +141,10 @@ public class AuthorInfo {
     @Override
     public String toString() {
         return "AuthorInfo{" +
-                "appid='" + appid + '\'' +
+                "alias='" + alias + '\'' +
+                ", appid='" + appid + '\'' +
                 ", secretKey='" + secretKey + '\'' +
+                ", token='" + token + '\'' +
                 ", ACCESS_TOKEN='" + ACCESS_TOKEN + '\'' +
                 ", ACCESS_TOKEN_EXPIRE_IN=" + ACCESS_TOKEN_EXPIRE_IN +
                 ", JS_TICKET='" + JS_TICKET + '\'' +

@@ -69,15 +69,17 @@ public class DefaultFileCache implements ICache {
         AuthorInfo authorInfo = new AuthorInfo();
         try {
             File confFile = new File(PropertiesUtil.getValue(IkeChat.P_SECRET_KEY_PATH));
-            if (!confFile.exists() && confFile.createNewFile());
+            if (!confFile.exists() && confFile.createNewFile()) ;
             BufferedReader bufferedReader = new BufferedReader(new FileReader(confFile));
             StringBuilder sb = new StringBuilder();
             String tmp;
+
             while ((tmp = bufferedReader.readLine()) != null) {
                 sb.append(tmp);
             }
+
             if (sb.length() == 0) {
-                return null;
+                return authorInfo;
             }
             Logger.getLogger(IkeChat.LOGGER_NAME).info("加载凭证：" + sb.toString());
             HashMap confMap = new Gson().fromJson(sb.toString(), HashMap.class);
@@ -102,7 +104,6 @@ public class DefaultFileCache implements ICache {
             authorInfo.setWebAccessTokenExpireIn((int) (Integer.parseInt((String) confMap.get("js_api_ticket")) +
                     timestamp - System.currentTimeMillis()));
             authorInfo.setIsWebTokenEffective(authorInfo.getWebAccessTokenExpireIn() > 60);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;

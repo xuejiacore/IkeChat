@@ -54,7 +54,7 @@ public class IkeChat {
     public static final int API_WEB = 0X1000;                           // @ Finished 网页接口
     public static final int API_MATERIAL = 0X2000;                      // @ Finished 素材管理接口
     public static final int API_ACCOUNT = 0X4000;                       // @ Finished 账号接口
-    public static final int API_DATA = 0X8000;                          // 数据统计
+    public static final int API_DATA = 0X8000;                          // @ Finished 数据统计
     public static final int API_COUPONS = 0X10000;                      // 卡券接口
     public static final int API_STORE = 0X20000;                        // 门店接口
     public static final int API_DEVICE = 0X40000;                       // 设备接口
@@ -71,6 +71,7 @@ public class IkeChat {
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public static final String P_APP_ID = "appID";                      // AppId
     public static final String P_SECRET = "appsecret";                  // AppSecret
+    public static final String P_TOKEN = "token";                       // Token
     public static final String P_SECRET_KEY_PATH = "secretPath";        // SecretKey Path
     public static final String P_DISK_ENCRYPT = "diskEncrypt";          // diskEncrypt
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -183,7 +184,7 @@ public class IkeChat {
 
 
     static {
-        IkeChat.apiMapper.put(API_USERS, TestAPI.class);                    // @ Developing
+        IkeChat.apiMapper.put(API_USERS, TestAPI.class);                                                // Developed
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);                   // @ Developing
         IkeChat.apiMapper.put(API_USERS, UserAPI.class);                                                // Developed
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);                   // @ Developing
@@ -192,7 +193,7 @@ public class IkeChat {
         IkeChat.apiMapper.put(API_WEB, WebAPI.class);                                                   // Developed
         IkeChat.apiMapper.put(API_MATERIAL, MaterialAPI.class);                                         // Developed
         IkeChat.apiMapper.put(API_ACCOUNT, AccountAPI.class);                                           // Developed
-        IkeChat.apiMapper.put(API_DATA, StatisticAPI.class);                // @ Developing
+        IkeChat.apiMapper.put(API_DATA, StatisticAPI.class);                                            // Developed
         IkeChat.apiMapper.put(API_COUPONS, TestAPI.class);                  // @ Developing
         IkeChat.apiMapper.put(API_STORE, TestAPI.class);                    // @ Developing
         IkeChat.apiMapper.put(API_DEVICE, TestAPI.class);                   // @ Developing
