@@ -16,6 +16,7 @@ import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.core.config.IConfiguration;
 import org.ike.wechat.core.material.MaterialAPI;
 import org.ike.wechat.core.menu.MenuAPI;
+import org.ike.wechat.core.statistics.StatisticAPI;
 import org.ike.wechat.core.user.UserAPI;
 import org.ike.wechat.core.web.WebAPI;
 import org.ike.wechat.exception.ChatException;
@@ -50,7 +51,7 @@ public class IkeChat {
     public static final int API_SERVER = 0x200;                         // @ Finished 服务器接口
     public static final int API_MENU = 0X400;                           // @ Finished 菜单接口
     public static final int API_MESSAGE = 0X800;                        // 消息接口
-    public static final int API_WEB = 0X1000;                           // @ Developing 网页接口
+    public static final int API_WEB = 0X1000;                           // @ Finished 网页接口
     public static final int API_MATERIAL = 0X2000;                      // @ Finished 素材管理接口
     public static final int API_ACCOUNT = 0X4000;                       // @ Finished 账号接口
     public static final int API_DATA = 0X8000;                          // 数据统计
@@ -130,6 +131,15 @@ public class IkeChat {
     // 账号管理
     public static final int API_AC_CREATE_QR = API_ACCOUNT | 0x01;                                  // 创建带场景值二维码
     public static final int API_LURL_2_SURL = API_ACCOUNT | 0x02;                                   // 长地址转短地址
+    // 数据统计
+    public static final int API_DA_USER_SUMMARY = API_DATA | 0x01;                                  // 获取用户的增减数据 [跨度7]
+    public static final int API_DA_USER_CUMULATE = API_DATA | 0x02;                                 // 获取累计用户数据 [跨度7]
+    public static final int API_DA_GET_ARTICLESUMMARY = API_DATA | 0x03;                            // 获取图文群发每日数据 [跨度1]
+    public static final int API_DA_GET_ARTICLETOTAL = API_DATA | 0x04;                              // 获取图文群发总数据 [跨度1]
+    public static final int API_DA_GET_USER_READ = API_DATA | 0x05;                                 // 获取图文统计数据 [跨度3]
+    public static final int API_DA_GET_USER_READHOUR = API_DATA | 0x06;                             // 获取图文统计分时数据 [跨度1]
+    public static final int API_DA_GET_USER_SHARE = API_DATA | 0x07;                                // 获取图文分享转发数据 [跨度7]
+    public static final int API_DA_GET_USER_SHAREHOUR = API_DATA | 0x08;                            // 获取图文分享转发分时数据 [跨度1]
     // ****** 对话服务接口结束
 
     // ****** TODO：功能服务接口开始-->
@@ -165,10 +175,10 @@ public class IkeChat {
         IkeChat.apiMapper.put(API_SERVER, TestAPI.class);                   // @ Developing
         IkeChat.apiMapper.put(API_MENU, MenuAPI.class);                                                 // Developed
         IkeChat.apiMapper.put(API_MESSAGE, TestAPI.class);                  // @ Developing
-        IkeChat.apiMapper.put(API_WEB, WebAPI.class);                      // @ Developing
+        IkeChat.apiMapper.put(API_WEB, WebAPI.class);                                                   // Developed
         IkeChat.apiMapper.put(API_MATERIAL, MaterialAPI.class);                                         // Developed
         IkeChat.apiMapper.put(API_ACCOUNT, AccountAPI.class);                                           // Developed
-        IkeChat.apiMapper.put(API_DATA, TestAPI.class);                     // @ Developing
+        IkeChat.apiMapper.put(API_DATA, StatisticAPI.class);                // @ Developing
         IkeChat.apiMapper.put(API_COUPONS, TestAPI.class);                  // @ Developing
         IkeChat.apiMapper.put(API_STORE, TestAPI.class);                    // @ Developing
         IkeChat.apiMapper.put(API_DEVICE, TestAPI.class);                   // @ Developing
