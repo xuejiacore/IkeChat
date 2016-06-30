@@ -11,6 +11,7 @@ import org.ike.wechat.core.ChatSign;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.message.domain.event.IEvent;
 import org.ike.wechat.core.message.domain.simple.IMessage;
+import org.ike.wechat.core.message.domain.simple.TextMessage;
 import org.ike.wechat.core.message.listener.IListener;
 
 import javax.servlet.ServletException;
@@ -64,6 +65,16 @@ public class CoreServlet extends HttpServlet {
 
                 public void onTextMsgReceived(IMessage msg) {
                     System.err.println(msg);
+                    System.err.println("收到消息：" + msg);
+
+                    ((TextMessage) msg.reverse()).setContent("哈哈哈哈哈");
+                    resp.setCharacterEncoding("UTF-8");
+                    resp.setContentType("application/xml");
+                    try {
+                        resp.getWriter().write(msg.toXml());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 public void onImageMsgReceived(IMessage msg) {
