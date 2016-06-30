@@ -20,48 +20,13 @@ import java.math.BigInteger;
  * Date Time:
  * Description:
  */
-public class LocationMessage implements IMessage {
-    private String ToUserName = null;
-    private String FromUserName = null;
-    private Long CreateTime = null;
-    private String MsgType = null;
+public class LocationMessage extends AbstractMessage  implements IMessage {
+
     private Double Location_X = null;
     private Double Location_Y = null;
     private Integer Scale = null;
     private String Label = null;
     private BigInteger MsgId = null;
-
-    public String getToUserName() {
-        return ToUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        ToUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return FromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        FromUserName = fromUserName;
-    }
-
-    public Long getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
-    }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
 
     public Double getLocation_X() {
         return Location_X;

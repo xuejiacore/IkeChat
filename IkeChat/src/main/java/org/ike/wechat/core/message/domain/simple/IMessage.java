@@ -17,4 +17,7 @@ package org.ike.wechat.core.message.domain.simple;
  * Description:
  */
 public interface IMessage {
+    IMessage reverse();
+
+    String toXml();
 }

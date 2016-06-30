@@ -21,46 +21,11 @@ import java.math.BigInteger;
  * Date Time:
  * Description:
  */
-public class TextMessage implements IMessage {
-    private String ToUserName = null;
-    private String FromUserName = null;
-    private Long CreateTime = null;
-    private String MsgType = null;
-    private String Content = null;                          // 文本消息内容
-    private BigInteger MsgId = null;                        // 消息id，64位整型
+public class TextMessage extends AbstractMessage implements IMessage {
+
+    private String Content = null;
+    private BigInteger MsgId = null;
     private String URL = null;
-
-    public String getToUserName() {
-        return ToUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        ToUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return FromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        FromUserName = fromUserName;
-    }
-
-    public Long getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
-    }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
 
     public String getURL() {
         return URL;

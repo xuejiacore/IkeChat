@@ -20,47 +20,12 @@ import java.math.BigInteger;
  * Date Time:
  * Description:链接消息
  */
-public class LinkMessage implements IMessage {
-    private String ToUserName = null;
-    private String FromUserName = null;
-    private Long CreateTime = null;
-    private String MsgType = null;
+public class LinkMessage extends AbstractMessage implements IMessage {
+
     private String Title = null;
     private String Description = null;
     private String Url = null;
     private BigInteger MsgId = null;
-
-    public String getToUserName() {
-        return ToUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        ToUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return FromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        FromUserName = fromUserName;
-    }
-
-    public Long getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
-    }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
 
     public String getTitle() {
         return Title;

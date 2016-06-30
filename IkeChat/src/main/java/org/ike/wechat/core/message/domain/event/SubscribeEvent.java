@@ -8,6 +8,7 @@
 package org.ike.wechat.core.message.domain.event;
 
 import com.google.gson.Gson;
+import org.ike.wechat.core.message.domain.simple.AbstractMessage;
 
 /**
  * Class Name: SubscribeEvent
@@ -18,45 +19,10 @@ import com.google.gson.Gson;
  * Date Time:
  * Description:
  */
-public class SubscribeEvent implements IEvent {
-    private String ToUserName = null;
-    private String FromUserName = null;
-    private Long CreateTime = null;
-    private String MsgType = null;
+public class SubscribeEvent extends AbstractMessage implements IEvent {
+
     private String Event = null;
     private String EventKey = null;
-
-    public String getToUserName() {
-        return ToUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        ToUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return FromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        FromUserName = fromUserName;
-    }
-
-    public Long getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
-    }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
 
     public String getEvent() {
         return Event;

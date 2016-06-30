@@ -20,47 +20,12 @@ import java.math.BigInteger;
  * Date Time:
  * Description:
  */
-public class VoiceMessage implements IMessage {
-    private String ToUserName = null;
-    private String FromUserName = null;
-    private Long CreateTime = null;
-    private String MsgType = null;
+public class VoiceMessage extends AbstractMessage implements IMessage {
+
     private String MediaId = null;
     private String Format = null;
     private BigInteger MsgId = null;
     private String Recognition = null;
-
-    public String getToUserName() {
-        return ToUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        ToUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return FromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        FromUserName = fromUserName;
-    }
-
-    public Long getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
-    }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
 
     public String getMediaId() {
         return MediaId;

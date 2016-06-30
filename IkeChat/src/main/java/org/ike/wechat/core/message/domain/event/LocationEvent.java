@@ -8,6 +8,8 @@
 package org.ike.wechat.core.message.domain.event;
 
 import com.google.gson.Gson;
+import org.ike.wechat.core.AbstractApi;
+import org.ike.wechat.core.message.domain.simple.AbstractMessage;
 import org.ike.wechat.core.message.domain.simple.IMessage;
 
 /**
@@ -19,47 +21,12 @@ import org.ike.wechat.core.message.domain.simple.IMessage;
  * Date Time:
  * Description:
  */
-public class LocationEvent implements IMessage {
-    private String ToUserName = null;
-    private String FromUserName = null;
-    private Long CreateTime = null;
-    private String MsgType = null;
+public class LocationEvent extends AbstractMessage implements IMessage {
+
     private String Event = null;
     private Integer Latitude = null;
     private Double Longitude = null;
     private Double Precision = null;
-
-    public String getToUserName() {
-        return ToUserName;
-    }
-
-    public void setToUserName(String toUserName) {
-        ToUserName = toUserName;
-    }
-
-    public String getFromUserName() {
-        return FromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        FromUserName = fromUserName;
-    }
-
-    public Long getCreateTime() {
-        return CreateTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
-    }
-
-    public String getMsgType() {
-        return MsgType;
-    }
-
-    public void setMsgType(String msgType) {
-        MsgType = msgType;
-    }
 
     public String getEvent() {
         return Event;
