@@ -46,7 +46,7 @@ public class ChatException extends Throwable {
     @Override
     public synchronized Throwable fillInStackTrace() {
         // 对所有发生的api异常，将做一次授权信息的保存
-        AbstractConfiguration.saveToken2Disk();
+        IkeChat.getConfiguration().saveToken2Disk();
         return super.fillInStackTrace();
     }
 

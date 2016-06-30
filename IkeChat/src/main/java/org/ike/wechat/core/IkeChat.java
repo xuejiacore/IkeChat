@@ -8,14 +8,23 @@
 package org.ike.wechat.core;
 
 import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.ike.wechat.TestAPI;
 import org.ike.wechat.core.acc.AccountAPI;
 import org.ike.wechat.core.auth.AuthorInfo;
 import org.ike.wechat.core.base.BaseAPI;
-import org.ike.wechat.core.config.DefaultConfiguration;
 import org.ike.wechat.core.config.IConfiguration;
 import org.ike.wechat.core.material.MaterialAPI;
 import org.ike.wechat.core.menu.MenuAPI;
+import org.ike.wechat.core.message.EventType;
+import org.ike.wechat.core.message.MsgType;
+import org.ike.wechat.core.message.domain.event.*;
+import org.ike.wechat.core.message.domain.simple.*;
+import org.ike.wechat.core.message.listener.IListener;
 import org.ike.wechat.core.statistics.StatisticAPI;
 import org.ike.wechat.core.user.UserAPI;
 import org.ike.wechat.core.web.WebAPI;
@@ -28,7 +37,12 @@ import org.ike.wechat.parser.Parameters;
 import org.ike.wechat.parser.Response;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class Name: IkeChat
@@ -346,10 +360,188 @@ public class IkeChat {
         return configuration;
     }
 
-    public static void main(String[] args) throws ChatException, IOException {
-        IkeChat.loadConfiguration(new DefaultConfiguration());
-        System.err.println(IkeChat.req(IkeChat.API_REFRESH_TOKEN, new Object[][]{PARAM_RELEASE_LOCKER}));
 
-        System.err.println(IkeChat.getAuthorInfo());
+    /**
+     * 分发消息
+     *
+     * @param inputStream 消息输入流
+     * @param listener    消息监听器
+     * @throws Exception
+     */
+    public static void dispatchMsg(InputStream inputStream, IListener listener) throws Exception {
+        if (listener != null) {
+            Map<String, Object> map = xmlStream2Map(inputStream);
+            String msgType = (String) map.get("MsgType");
+            if ("event".equals(msgType)) {
+                String eventType = (String) map.get("Event");
+                if (eventType.equals(EventType.EVENT_TYPE_SUBSCRIBE)) {
+                    listener.onSubscribeListener((IEvent) mapToBean(map, SubscribeEvent.class));
+                } else if (eventType.equals(EventType.EVENT_TYPE_UNSUBSCRIBE)) {
+                    listener.onUnsubscribeListener((IEvent) mapToBean(map, UnsubscribeEvent.class));
+                } else if (eventType.equals(EventType.EVENT_TYPE_SCAN)) {
+                    listener.onScanListener((IEvent) mapToBean(map, ScaningQrEvent.class));
+                } else if (eventType.equals(EventType.EVENT_TYPE_LOCATION)) {
+                    listener.onLocationListener((IEvent) mapToBean(map, LocationEvent.class));
+                } else if (eventType.equals(EventType.EVENT_TYPE_CLICK)) {
+                    listener.onClickListener((IEvent) mapToBean(map, MenuClickEvent.class));
+                } else if (eventType.equals(EventType.EVENT_TYPE_VIEW)) {
+                    listener.onViewListener((IEvent) mapToBean(map, MenuViewEvent.class));
+                }
+            } else {
+                if (msgType.equals(MsgType.MSG_TYPE_TEXT)) {
+                    listener.onTextMsgReceived(mapToBean(map, TextMessage.class));
+                } else if (msgType.equals(MsgType.MSG_TYPE_IMAGE)) {
+                    listener.onImageMsgReceived(mapToBean(map, ImageMessage.class));
+                } else if (msgType.equals(MsgType.MSG_TYPE_LINK)) {
+                    listener.onLinkMsgReceived(mapToBean(map, LinkMessage.class));
+                } else if (msgType.equals(MsgType.MSG_TYPE_VIDEO)) {
+                    listener.onVideoMsgReceived(mapToBean(map, VideoMessage.class));
+                } else if (msgType.equals(MsgType.MSG_TYPE_VOICE)) {
+                    listener.onVoiceMsgReceived(mapToBean(map, VoiceMessage.class));
+                } else if (msgType.equals(MsgType.MSG_TYPE_SHORTVIDEO)) {
+                    listener.onShortVideoMsgReceived(mapToBean(map, ShortVideoMessage.class));
+                } else if (msgType.equals(MsgType.MSG_TYPE_LOCATION)) {
+                    listener.onLocationMsgReceived(mapToBean(map, LocationMessage.class));
+                }
+            }
+        }
+    }
+
+    /**
+     * xml字符串转换成bean对象
+     *
+     * @param xmlStr xml字符串
+     * @param clazz  待转换的class
+     * @return 转换后的对象
+     */
+    public Object xmlStrToBean(String xmlStr, Class<? extends IMessage> clazz) {
+        Object obj = null;
+        try {
+            // 将xml格式的数据转换成Map对象
+            Map<String, Object> map = xmlStrToMap(xmlStr);
+            //将map对象的数据转换成Bean对象
+            obj = mapToBean(map, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    /**
+     * 将xml格式的字符串转换成Map对象
+     *
+     * @param xmlStr xml格式的字符串
+     * @return Map对象
+     * @throws Exception 异常
+     */
+    private static Map<String, Object> xmlStrToMap(String xmlStr) throws Exception {
+        if (xmlStr == null || xmlStr.length() == 0) {
+            return null;
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        Document doc = DocumentHelper.parseText(xmlStr);
+        Element root = doc.getRootElement();
+        List children = root.elements();
+        if (children != null && children.size() > 0) {
+            for (Object aChildren : children) {
+                Element child = (Element) aChildren;
+                map.put(child.getName(), child.getTextTrim());
+            }
+        }
+        return map;
+    }
+
+    private static Map<String, Object> xmlStream2Map(InputStream inputStream) throws DocumentException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Document doc = new SAXReader().read(inputStream);
+        Element root = doc.getRootElement();
+        List children = root.elements();
+        if (children != null && children.size() > 0) {
+            for (Object aChildren : children) {
+                Element child = (Element) aChildren;
+                map.put(child.getName(), child.getTextTrim());
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 将Map对象通过反射机制转换成Bean对象
+     *
+     * @param map   存放数据的map对象
+     * @param clazz 待转换的class
+     * @return 转换后的Bean对象
+     * @throws Exception 异常
+     */
+    private static IMessage mapToBean(Map<String, Object> map, Class<? extends IMessage> clazz) throws Exception {
+        IMessage obj = clazz.newInstance();
+        if (map != null && map.size() > 0) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String propertyName = entry.getKey();
+                Object value = entry.getValue();
+                String setMethodName = "set"
+                        + propertyName.substring(0, 1).toUpperCase()
+                        + propertyName.substring(1);
+                Field field = getClassField(clazz, propertyName);
+                Class fieldTypeClass = field != null ? field.getType() : null;
+                value = convertValType(value, fieldTypeClass);
+                clazz.getMethod(setMethodName, field != null ? field.getType() : null).invoke(obj, value);
+            }
+        }
+        return obj;
+    }
+
+    /**
+     * 将Object类型的值，转换成bean对象属性里对应的类型值
+     *
+     * @param value          Object对象值
+     * @param fieldTypeClass 属性的类型
+     * @return 转换后的值
+     */
+    private static Object convertValType(Object value, Class fieldTypeClass) {
+        Object retVal;
+        if (Long.class.getName().equals(fieldTypeClass.getName())
+                || long.class.getName().equals(fieldTypeClass.getName())) {
+            retVal = Long.parseLong(value.toString());
+        } else if (Integer.class.getName().equals(fieldTypeClass.getName())
+                || int.class.getName().equals(fieldTypeClass.getName())) {
+            retVal = Integer.parseInt(value.toString());
+        } else if (Float.class.getName().equals(fieldTypeClass.getName())
+                || float.class.getName().equals(fieldTypeClass.getName())) {
+            retVal = Float.parseFloat(value.toString());
+        } else if (Double.class.getName().equals(fieldTypeClass.getName())
+                || double.class.getName().equals(fieldTypeClass.getName())) {
+            retVal = Double.parseDouble(value.toString());
+        } else if (BigInteger.class.getName().equals(fieldTypeClass.getName())) {
+            retVal = new BigInteger(value.toString());
+        } else {
+            retVal = value;
+        }
+        return retVal;
+    }
+
+    /**
+     * 获取指定字段名称查找在class中的对应的Field对象(包括查找父类)
+     *
+     * @param clazz     指定的class
+     * @param fieldName 字段名称
+     * @return Field对象
+     */
+    private static Field getClassField(Class clazz, String fieldName) {
+        if (Object.class.getName().equals(clazz.getName())) {
+            return null;
+        }
+        Field[] declaredFields = clazz.getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+
+        Class superClass = clazz.getSuperclass();
+        if (superClass != null) {
+            return getClassField(superClass, fieldName);
+        }
+        return null;
     }
 }

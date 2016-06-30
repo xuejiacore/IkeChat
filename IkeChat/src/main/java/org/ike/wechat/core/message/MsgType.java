@@ -45,4 +45,9 @@ public interface MsgType {
      * 链接消息
      */
     String MSG_TYPE_LINK = "link";
+
+    /**
+     * 事件消息
+     */
+    String MSG_TYPE_EVENT = "event";
 }

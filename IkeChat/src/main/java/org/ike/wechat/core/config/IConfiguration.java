@@ -41,4 +41,6 @@ public interface IConfiguration {
      * @return 返回响应回调接口
      */
     IResponseListener getResponseListener();
+
+    boolean saveToken2Disk();
 }

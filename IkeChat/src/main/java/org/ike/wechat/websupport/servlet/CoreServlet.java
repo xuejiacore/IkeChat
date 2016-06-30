@@ -5,15 +5,13 @@
  * Date Time: 2016/6/29 19:52
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat;
+package org.ike.wechat.websupport.servlet;
 
 import org.ike.wechat.core.ChatSign;
 import org.ike.wechat.core.IkeChat;
-import org.ike.wechat.core.config.DefaultConfiguration;
-import org.ike.wechat.core.message.IMessage;
-import org.ike.wechat.core.message.MessageDispatcher;
-import org.ike.wechat.core.message.TextMessage;
-import org.ike.wechat.core.message.listener.TextMsgListener;
+import org.ike.wechat.core.message.domain.event.IEvent;
+import org.ike.wechat.core.message.domain.simple.IMessage;
+import org.ike.wechat.core.message.listener.IListener;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,39 +31,63 @@ import java.io.PrintWriter;
  */
 public class CoreServlet extends HttpServlet {
 
-    static {
-        //        try {
-        IkeChat.loadConfiguration(new DefaultConfiguration());
-//            IkeChat.req(IkeChat.API_REFRESH_TOKEN, IkeChat.PARAM_RELEASE_LOCKER);
-//        } catch (ChatException e) {
-//            e.printStackTrace();
-//        }
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
         try {
-            new MessageDispatcher(req.getInputStream(), new TextMsgListener() {
+            IkeChat.dispatchMsg(req.getInputStream(), new IListener() {
+                public void onSubscribeListener(IEvent event) {
+                    System.err.println(event);
+                }
+
+                public void onUnsubscribeListener(IEvent event) {
+                    System.err.println(event);
+                }
+
+                public void onScanListener(IEvent event) {
+                    System.err.println(event);
+                }
+
+                public void onLocationListener(IEvent event) {
+                    System.err.println(event);
+                }
+
+                public void onClickListener(IEvent event) {
+                    System.err.println(event);
+                }
+
+                public void onViewListener(IEvent event) {
+                    System.err.println(event);
+                }
+
                 public void onTextMsgReceived(IMessage msg) {
-                    TextMessage textMessage = ((TextMessage) msg);
-                    System.err.println(textMessage);
-                    String response = "<xml>" +
-                            "<ToUserName><![CDATA[" + textMessage.getFromUserName() + "]]></ToUserName>" +
-                            "<FromUserName><![CDATA[" + textMessage.getToUserName() + "]]></FromUserName>" +
-                            "<CreateTime>" + System.currentTimeMillis() + "</CreateTime>" +
-                            "<MsgType><![CDATA[text]]></MsgType>" +
-                            "<Content><![CDATA[" + "哈哈哈哈" + "]]></Content>" +
-                            "</xml>";
-                    try {
-                        resp.setContentType("application/xml");
-                        resp.getWriter().write(response);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    System.err.println("收到消息：" + ((TextMessage) msg).getContent());
+                    System.err.println(msg);
+                }
+
+                public void onImageMsgReceived(IMessage msg) {
+                    System.err.println(msg);
+                }
+
+                public void onVoiceMsgReceived(IMessage msg) {
+                    System.err.println(msg);
+                }
+
+                public void onVideoMsgReceived(IMessage msg) {
+                    System.err.println(msg);
+                }
+
+                public void onShortVideoMsgReceived(IMessage msg) {
+                    System.err.println(msg);
+                }
+
+                public void onLocationMsgReceived(IMessage msg) {
+                    System.err.println(msg);
+                }
+
+                public void onLinkMsgReceived(IMessage msg) {
+                    System.err.println(msg);
                 }
             });
         } catch (Exception e) {

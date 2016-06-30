@@ -2,29 +2,32 @@
  * Project: IkeChat
  * Package Name: org.ike.wechat.core.message
  * Author: Xuejia
- * Date Time: 2016/6/29 23:29
+ * Date Time: 2016/6/30 7:43
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.message;
+package org.ike.wechat.core.message.domain.simple;
+
+import com.google.gson.Gson;
 
 import java.math.BigInteger;
 
 /**
- * Class Name: TextMessage
- * Create Date: 2016/6/29 23:29
+ * Class Name: ImageMessage
+ * Create Date: 2016/6/30 7:43
  * Creator: Xuejia
  * Version: v1.0
  * Updater:
  * Date Time:
  * Description:
  */
-public class TextMessage implements IMessage {
+public class ImageMessage implements IMessage {
     private String ToUserName = null;                       // 开发者微信号
     private String FromUserName = null;                     // 发送方帐号（一个OpenID）
     private Long CreateTime = null;                         // 消息创建时间 （整型）
     private String MsgType = null;                          // image
-    private String Content = null;                          // 文本消息内容
-    private BigInteger MsgId = null;                           // 消息id，64位整型
+    private String PicUrl = null;                           // 图片链接（由系统生成）
+    private String MediaId = null;                          // 图片消息媒体id，可以调用多媒体文件下载接口拉取数据。
+    private BigInteger MsgId = null;                        // 消息id，64位整型
 
     public String getToUserName() {
         return ToUserName;
@@ -58,12 +61,20 @@ public class TextMessage implements IMessage {
         MsgType = msgType;
     }
 
-    public String getContent() {
-        return Content;
+    public String getPicUrl() {
+        return PicUrl;
     }
 
-    public void setContent(String content) {
-        Content = content;
+    public void setPicUrl(String picUrl) {
+        PicUrl = picUrl;
+    }
+
+    public String getMediaId() {
+        return MediaId;
+    }
+
+    public void setMediaId(String mediaId) {
+        MediaId = mediaId;
     }
 
     public BigInteger getMsgId() {
@@ -76,13 +87,6 @@ public class TextMessage implements IMessage {
 
     @Override
     public String toString() {
-        return "TextMessage{" +
-                "ToUserName='" + ToUserName + '\'' +
-                ", FromUserName='" + FromUserName + '\'' +
-                ", CreateTime=" + CreateTime +
-                ", MsgType='" + MsgType + '\'' +
-                ", Content='" + Content + '\'' +
-                ", MsgId=" + MsgId +
-                '}';
+        return new Gson().toJson(this);
     }
 }

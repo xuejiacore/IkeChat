@@ -5,9 +5,10 @@
  * Date Time: 2016/6/29 22:33
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.message.listener;
+package org.ike.wechat.core.message.listener.simple;
 
-import org.ike.wechat.core.message.IMessage;
+import org.ike.wechat.core.message.domain.simple.IMessage;
+import org.ike.wechat.core.message.listener.IListener;
 
 /**
  * Class Name: IMessageListener
@@ -18,7 +19,7 @@ import org.ike.wechat.core.message.IMessage;
  * Date Time:
  * Description:
  */
-public interface IMessageListener {
+public interface IMessageListener extends IListener {
     void onTextMsgReceived(IMessage msg);
 
     void onImageMsgReceived(IMessage msg);

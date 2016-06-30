@@ -72,7 +72,7 @@ public abstract class AbstractConfiguration implements IConfiguration {
      *
      * @return 如果保存成功，那么返回值为true，否则返回值为false
      */
-    public static boolean saveToken2Disk() {
+    public boolean saveToken2Disk() {
         Logger.getLogger(IkeChat.LOGGER_NAME).debug("微信API退出，进行授权信息的保存操作");
         if (storageProcessor != null) {
             storageProcessor.onCache(authorInfo);

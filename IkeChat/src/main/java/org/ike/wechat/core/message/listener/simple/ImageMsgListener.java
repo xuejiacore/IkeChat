@@ -2,28 +2,24 @@
  * Project: IkeChat
  * Package Name: org.ike.wechat.core.message.listener
  * Author: Xuejia
- * Date Time: 2016/6/29 22:41
+ * Date Time: 2016/6/29 22:40
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.message.listener;
+package org.ike.wechat.core.message.listener.simple;
 
-import org.ike.wechat.core.message.IMessage;
+import org.ike.wechat.core.message.domain.simple.IMessage;
 
 /**
- * Class Name: ShortVideoMsgListener
- * Create Date: 2016/6/29 22:41
+ * Class Name: ImageMsgListener
+ * Create Date: 2016/6/29 22:40
  * Creator: Xuejia
  * Version: v1.0
  * Updater:
  * Date Time:
  * Description:
  */
-public abstract class ShortVideoMsgListener implements IMessageListener {
+public abstract class ImageMsgListener extends AbstractMsgListener {
     public void onTextMsgReceived(IMessage msg) {
-
-    }
-
-    public void onImageMsgReceived(IMessage msg) {
 
     }
 
@@ -32,6 +28,10 @@ public abstract class ShortVideoMsgListener implements IMessageListener {
     }
 
     public void onVideoMsgReceived(IMessage msg) {
+
+    }
+
+    public void onShortVideoMsgReceived(IMessage msg) {
 
     }
 

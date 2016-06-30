@@ -5,9 +5,9 @@
  * Date Time: 2016/6/29 22:42
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.message.listener;
+package org.ike.wechat.core.message.listener.simple;
 
-import org.ike.wechat.core.message.IMessage;
+import org.ike.wechat.core.message.domain.simple.IMessage;
 
 /**
  * Class Name: LocationMsgListener
@@ -18,7 +18,7 @@ import org.ike.wechat.core.message.IMessage;
  * Date Time:
  * Description:
  */
-public abstract class LocationMsgListener implements IMessageListener{
+public abstract class LocationMsgListener extends AbstractMsgListener {
     public void onTextMsgReceived(IMessage msg) {
 
     }

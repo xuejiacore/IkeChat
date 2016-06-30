@@ -1,30 +1,33 @@
 /**
  * Project: IkeChat
- * Package Name: org.ike.wechat.core.message.listener
+ * Package Name: org.ike.wechat.core.message.listener.event
  * Author: Xuejia
- * Date Time: 2016/6/29 22:39
+ * Date Time: 2016/6/30 17:36
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.message.listener;
+package org.ike.wechat.core.message.listener.event;
 
-import org.ike.wechat.core.message.IMessage;
+import org.ike.wechat.core.message.domain.simple.IMessage;
 
 /**
- * Class Name: TextMsgListener
- * Create Date: 2016/6/29 22:39
+ * Class Name: AbstractEventListener
+ * Create Date: 2016/6/30 17:36
  * Creator: Xuejia
  * Version: v1.0
  * Updater:
  * Date Time:
  * Description:
  */
-public abstract class TextMsgListener implements IMessageListener {
-
+public abstract class AbstractEventListener implements IEventListener{
     public void onImageMsgReceived(IMessage msg) {
 
     }
 
     public void onVoiceMsgReceived(IMessage msg) {
+
+    }
+
+    public void onTextMsgReceived(IMessage msg) {
 
     }
 

@@ -5,7 +5,7 @@
  * Date Time: 2016/6/29 22:35
  * Copyright: 2016 www.zigui.site. All rights reserved.
  **/
-package org.ike.wechat.core.message;
+package org.ike.wechat.core.message.domain.simple;
 
 /**
  * Class Name: IMessage
