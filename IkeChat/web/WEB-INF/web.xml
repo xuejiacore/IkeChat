@@ -5,6 +5,13 @@
          version="3.1">
 
     <!--上下文监听器，用于启动时读取公众号配置以及授权缓存-->
+    <context-param>
+        <param-name>ChatConfigPath</param-name>
+        <param-value>classpath:default-chat-config.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.ike.wechat.websupport.listener.ChatCoreListener</listener-class>
+    </listener>
     <listener>
         <listener-class>org.ike.wechat.websupport.listener.WechatInitListener</listener-class>
     </listener>

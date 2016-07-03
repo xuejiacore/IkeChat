@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!--主配置-->
+        <!ELEMENT configuration (config-name, init-main, cache-config?, init-param+, cluster-config?, extend-err-config?, response-filter?)>
+
+        <!--配置名称-->
+        <!ELEMENT config-name (#PCDATA)>
+        <!--参数-->
+        <!ELEMENT init-param (param-name,param-value)>
+        <!ELEMENT param-name (#PCDATA)>
+        <!ELEMENT param-value (#PCDATA)>
+
+        <!--缓存配置-->
+        <!ELEMENT cache-name (#PCDATA)>
+        <!ELEMENT cache-class (#PCDATA)>
+        <!ELEMENT file-path (#PCDATA)>
+        <!ELEMENT driver (#PCDATA)>
+        <!ELEMENT db-type (#PCDATA)>
+        <!ELEMENT url (#PCDATA)>
+        <!ELEMENT user (#PCDATA)>
+        <!ELEMENT password (#PCDATA)>
+        <!ELEMENT dbconfig (driver, db-type,url,user, password)>
+        <!ELEMENT description (#PCDATA)>
+        <!ELEMENT cache-config (cache-name, cache-class,(file-path|dbconfig), description?)>
+
+        <!--主参-->
+        <!ELEMENT init-main (appid, appsecret, token)>
+        <!ELEMENT appid (#PCDATA)>
+        <!ELEMENT appsecret (#PCDATA)>
+        <!ELEMENT token (#PCDATA)>
+
+        <!--集群配置-->
+        <!ELEMENT cluster-config (config-path, enable)>
+        <!--错误扩展-->
+        <!ELEMENT extend-err-config (config-path, enable)>
+
+        <!ELEMENT enable (#PCDATA)>
+        <!ELEMENT config-path (#PCDATA)>
+
+        <!--微信响应处理器-->
+        <!ELEMENT filter-name (#PCDATA)>
+        <!ELEMENT filter-class (#PCDATA)>
+        <!ELEMENT response-filter (filter-name, filter-class)>
+
+

@@ -10,6 +10,7 @@ package org.ike.wechat.websupport.listener;
 import org.apache.log4j.Logger;
 import org.ike.wechat.core.IkeChat;
 import org.ike.wechat.core.config.DefaultConfiguration;
+import org.ike.wechat.core.config.WebDefaultConfiguration;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -28,7 +29,7 @@ public class WechatInitListener implements ServletContextListener {
     Logger logger = Logger.getLogger(WechatInitListener.class);
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        IkeChat.loadConfiguration(new DefaultConfiguration());
+        IkeChat.loadConfiguration(new WebDefaultConfiguration());
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

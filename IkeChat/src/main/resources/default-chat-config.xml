@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--<!DOCTYPE configuration SYSTEM "configuration.dtd">-->
+<configuration>
+    <!--配置名称-->
+    <config-name>测试配置</config-name>
+
+    <!--主公众号的配置-->
+    <init-main>
+        <appid>wx73e2dd423f007551</appid>
+        <appsecret>d4624c36b6795d1d99dcf0547af5443d</appsecret>
+        <token>zigui20120518</token>
+    </init-main>
+
+    <!--缓存配置-->
+    <cache-config>
+        <cache-name>FileCache</cache-name>
+        <cache-class>org.ike.wechat.cache.DefaultFileCache</cache-class>
+        <file-path>F:/Projects/IkeChat/token.conf</file-path>
+        <description>文件方式</description>
+    </cache-config>
+    <!--数据库缓存方式
+    <cache-config>
+        <cache-name>DBCache</cache-name>
+        <class-path>demo</class-path>
+        <dbconfig>
+            <driver></driver>
+            <db-type></db-type>
+            <url></url>
+            <user></user>
+            <password></password>
+        </dbconfig>
+        <description>数据库方式</description>
+    </cache-config>
+    -->
+
+    <!--其他参数配置-->
+    <init-param>
+        <param-name>测试参数名称</param-name>
+        <param-value>测试参数值</param-value>
+    </init-param>
+
+    <!--公众号群集配置(可选项)-->
+    <cluster-config>
+        <config-path>classpath:cluster-chat-config</config-path>
+        <enable>false</enable>
+    </cluster-config>
+
+    <!--扩展的错误信息配置(可选项)-->
+    <extend-err-config>
+        <config-path>classpath:err-extention</config-path>
+        <enable>true</enable>
+    </extend-err-config>
+
+    <response-filter>
+        <filter-name>ResponseFilter</filter-name>
+        <filter-class>org.ike.wechat.websupport.filter.ResponseListener</filter-class>
+    </response-filter>
+</configuration>

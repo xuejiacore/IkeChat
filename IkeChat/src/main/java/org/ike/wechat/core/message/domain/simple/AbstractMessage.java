@@ -72,7 +72,7 @@ public abstract class AbstractMessage implements IMessage {
         return this;
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("unchecked")
     public String toXml() {
         String clzName = this.getClass().getName();
         Document document = DocumentHelper.createDocument();
@@ -90,16 +90,9 @@ public abstract class AbstractMessage implements IMessage {
             return "success";
         }
 
-        try {
-            System.err.println(msgClz.getMethod("getContent"));
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-
-        Object val = null;
-        String getFieldName = null;
-        Element tmpElement = null;
+        Object val;
+        String getFieldName;
+        Element tmpElement;
         for (Field field : fieldList) {
             getFieldName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
             try {
